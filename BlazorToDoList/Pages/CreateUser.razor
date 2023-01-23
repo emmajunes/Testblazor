@@ -1,0 +1,23 @@
+﻿@page "/CreateUser"
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@inject UserService UserService;
+
+<h3>CreateUser</h3>
+<div>
+    <EditForm Model="@newUser" OnSubmit="@OnSubmit">
+        <InputText id="name" @bind-Value="newUser.Username" />
+        <InputText id="name" @bind-Value="newUser.Password" />
+        <InputText id="name" @bind-Value="newUser.Email" />
+        <button type="submit">Submit</button>
+    </EditForm>
+</div>
+
+@code {
+    private UserItem newUser = new();
+
+    public async Task OnSubmit()
+    {
+        newUser = await UserService.CreateUser(newUser);
+    }
+}

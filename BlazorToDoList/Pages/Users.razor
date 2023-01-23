@@ -1,0 +1,31 @@
+﻿@page "/Users"
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@inject UserService UserService;
+
+<h3>Användare</h3>
+
+<table class="table">
+    <tbody>
+        @foreach (var user in users)
+        {
+                <tr>
+                    <td>@user.Username</td>     
+                    <td>@user.Email</td>
+                    <td>@user.Access</td>
+                </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private IEnumerable<UserItem> users = new List<UserItem>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        users = await UserService.GetUsersAsync();
+
+    }
+}

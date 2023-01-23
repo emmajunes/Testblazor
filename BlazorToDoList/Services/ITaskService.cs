@@ -1,0 +1,22 @@
+﻿using ToDoList.API.Models;
+
+namespace BlazorToDoList.Services
+{
+    public interface ITaskService
+    {
+        //ToDoListDto AddTask(string taskTitle, string taskDescription, Priority taskPrio);
+        //IEnumerable<TaskDto> GetTasks();
+
+        //TaskDto GetSingleTask(Guid taskId);
+
+        //void DeleteTask();
+
+        //TaskDto EditTask(string? title, string? description, Priority? prio);
+
+        //TaskDto ToggleTask(bool completed);
+
+        //void ChangeSortTypeForTask(SortTask sortAlternative);
+
+        //IEnumerable<TaskDto> SortTasks(SortTask sortAlternative);
+    }
+}

@@ -1,0 +1,35 @@
+﻿@page "/GetAllLists"
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+
+<h3>Listor</h3>
+
+@inject ListService ListService;
+
+<table class="table">
+    <tbody>
+        @foreach (var list in lists)
+        {
+            <tr>
+                <td>@list.ListTitle</td>     
+                <td>@list.TitleColor</td>     
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private IEnumerable<ToDoListItem> lists = new List<ToDoListItem>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        lists = await ListService.GetAllListsAsync();
+    }
+
+    //public async Task OnSubmit()
+    //{
+    //    await ListService.CreateList(listItem);
+    //}
+}

@@ -1,0 +1,24 @@
+﻿@page "/LogIn"
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@inject UserService UserService;
+
+<h3>LogIn</h3>
+<div>
+<EditForm Model="@user" OnSubmit="@OnSubmit">
+    <InputText id="name" @bind-Value="user.Username" />
+        <InputText id="name" @bind-Value="user.Password" />
+    <button type="submit">Submit</button>
+</EditForm>
+@user.Email
+</div>
+
+@code {
+    private UserItem user = new();
+
+    public async Task OnSubmit()
+    {
+        user = await UserService.Authenticate(user);
+    }
+
+}
