@@ -9,13 +9,23 @@
         Title:
         <InputText id="name" @bind-Value="listItem.ListTitle" />
         <button type="submit">Submit</button>
+        Priority:
+        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control">
+
+            @foreach (var color in Enum.GetValues(typeof(Color)))
+            {
+                <option value="@color">@color</option>
+            }
+        </InputSelect>
+        
     </EditForm>
 </div>
 @code {
     //Kan inte lägga till color i koden ovan för att den är en enum?
-    private ToDoListItem listItem;
+    private ToDoListItem listItem = new();
+    private Color color = new();
     public async Task OnSubmit()
     {
-        //await ListService.CreateList(listItem);
+        await ListService.CreateListAsync(listItem);
     }
 }

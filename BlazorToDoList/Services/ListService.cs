@@ -25,13 +25,15 @@ namespace BlazorToDoList.Services
         //    throw new NotImplementedException();
         //}
 
-        //public async Task<ToDoListItem> CreateList(ToDoListItem listItem)
-        //{
-        //    var path = "List/CreateList";
-        //    var result = await _httpClientWrapper.PostAsync<ToDoListItem>(path, listItem);
+        public async Task<ToDoListItem> CreateListAsync(ToDoListItem listItem)
+        {
+            var path = "List/CreateList";
+            var stringContent = JsonSerializer.Serialize(listItem);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            var result = await _httpClientWrapper.PostAsync<ToDoListItem>(path, data);
 
-        //    return result;
-        //}
+            return result;
+        }
 
         public async Task<ToDoListItem> DeleteListAsync()
         {

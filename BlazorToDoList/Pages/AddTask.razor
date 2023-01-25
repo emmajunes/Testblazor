@@ -2,6 +2,7 @@
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @inject TaskService TaskService;
+@inject NavigationManager NavigationManager;
 
 <h3>AddTask</h3>
 
@@ -17,7 +18,6 @@
             @foreach (var prio in Enum.GetValues(typeof(Priority)))
             {
                 <option value="@prio">@prio</option>
-
             }
         </InputSelect>
         <button type="submit">Submit</button>
@@ -31,5 +31,7 @@
     public async Task OnSubmit()
     {
         taskItem = await TaskService.AddTaskAsync(taskItem);
+        NavigationManager.NavigateTo("/singlelist", true);
+
     }
 }

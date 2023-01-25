@@ -4,11 +4,25 @@
 @inject UserService UserService
 
 <h3>Promote User</h3>
-Do you want to promote to moderator or admin?
+
+<div>
+    <EditForm Model="@user" OnSubmit="@OnSubmit">
+        Access:
+        <InputSelect id="prio" @bind-Value="user.Access" class="form-control">
+
+            @foreach (var access in Enum.GetValues(typeof(Access)))
+            {
+                    <option value="@access">@access</option>
+            }
+        </InputSelect>
+        <button type="submit">Submit</button>
+    </EditForm>
+</div>
 
 
 @code {
-    private UserItem user;
+    private UserItem user = new();
+    private Access access = new();
 
     public async Task OnSubmit()
     {
