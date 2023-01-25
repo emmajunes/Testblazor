@@ -1,6 +1,7 @@
 ﻿@page "/singlelist"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
+@using ToDoList.API;
 @inject ListService ListService;
 @inject TaskService TaskService;
 @inject NavigationManager NavigationManager;
@@ -30,7 +31,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        list = await ListService.GetIndividualListAsync();
+        var listId = CurrentRecord.Id["ListId"];
+
+        list = await ListService.GetIndividualListAsync(Guid.Parse(listId));
         tasks = await TaskService.GetTasksAsync();
     }
 }

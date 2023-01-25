@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Principal;
 using BlazorToDoList.Data;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text;
 
 namespace BlazorToDoList.Services
 {
@@ -55,10 +57,14 @@ namespace BlazorToDoList.Services
             return await _httpClientWrapper.GetAsync<IEnumerable<ToDoListItem>>(path);
         }
 
-        public async Task<ToDoListItem> GetIndividualListAsync()
+        public async Task<ToDoListItem> GetIndividualListAsync(Guid listId)
         {
             var path= "List/GetSingleList";
-            return await _httpClientWrapper.GetAsync<ToDoListItem>(path);
+            
+            var stringContent = JsonSerializer.Serialize(listId);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            return await _httpClientWrapper.PutAsync<ToDoListItem>(path, data);
+
         }
 
         public async Task<IEnumerable<ToDoListItem>> GetAllListsAsync()
