@@ -23,17 +23,19 @@ namespace BlazorToDoList.Services
         //    throw new NotImplementedException();
         //}
 
-        //public async Task<ToDoListItem> CreateList(ToDoListItem body)
+        //public async Task<ToDoListItem> CreateList(ToDoListItem listItem)
         //{
         //    var path = "List/CreateList";
-        //    var result = await _httpClientWrapper.PostAsync<ToDoListItem>(path, body);
+        //    var result = await _httpClientWrapper.PostAsync<ToDoListItem>(path, listItem);
 
         //    return result;
         //}
-  
-        public async Task DeleteListAsync()
+
+        public async Task<ToDoListItem> DeleteListAsync()
         {
             var path = "List/DeleteList";
+            return await _httpClientWrapper.DeleteAsync<ToDoListItem>(path);
+  
         }
 
         //public ToDoListItem EditList(HttpContent content)
@@ -50,25 +52,19 @@ namespace BlazorToDoList.Services
         public async Task<IEnumerable<ToDoListItem>> GetCurrentUserListsAsync()
         {
             var path =  "List/GetCurrentUserLists";
-            var result = await _httpClientWrapper.GetAsync<IEnumerable<ToDoListItem>>(path);
-
-            return result;
+            return await _httpClientWrapper.GetAsync<IEnumerable<ToDoListItem>>(path);
         }
 
         public async Task<ToDoListItem> GetIndividualListAsync()
         {
             var path= "List/GetSingleList";
-            var result = await _httpClientWrapper.GetAsync<ToDoListItem>(path);
-
-            return result;
+            return await _httpClientWrapper.GetAsync<ToDoListItem>(path);
         }
 
         public async Task<IEnumerable<ToDoListItem>> GetAllListsAsync()
         {
             var path = "List/GetAllLists";
-            var result = await _httpClientWrapper.GetAsync<IEnumerable<ToDoListItem>>(path);
-
-            return result;
+            return await _httpClientWrapper.GetAsync<IEnumerable<ToDoListItem>>(path);
 
         }
 

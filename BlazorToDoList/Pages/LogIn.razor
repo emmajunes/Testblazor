@@ -6,7 +6,9 @@
 <h3>LogIn</h3>
 <div>
 <EditForm Model="@user" OnSubmit="@OnSubmit">
+    Username:
     <InputText id="name" @bind-Value="user.Username" />
+    Password:
         <InputText id="name" @bind-Value="user.Password" />
     <button type="submit">Submit</button>
 </EditForm>

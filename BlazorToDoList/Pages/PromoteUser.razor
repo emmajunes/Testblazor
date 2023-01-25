@@ -1,0 +1,17 @@
+﻿@page "/promoteuser"
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@inject UserService UserService
+
+<h3>Promote User</h3>
+Do you want to promote to moderator or admin?
+
+
+@code {
+    private UserItem user;
+
+    public async Task OnSubmit()
+    {
+        user = await UserService.PromoteUserAsync(user);
+    }
+}

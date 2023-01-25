@@ -1,0 +1,19 @@
+﻿@page "/deleteuser"
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@inject UserService UserService;
+
+<h3>DeleteUser</h3>
+
+Do you want to delete your user?
+
+
+
+@code {
+    private UserItem user = new();
+
+    public async Task OnSubmit()
+    {
+        //user = await UserService.DeleteUserAsync(user); // metoden vill att man skickar in id
+    }
+}

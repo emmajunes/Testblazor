@@ -20,12 +20,28 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+[C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/AddTask.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkVGFzay5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/CreateList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JlYXRlTGlzdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/CreateUser.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JlYXRlVXNlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/DeleteList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGVsZXRlTGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/DeleteUser.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGVsZXRlVXNlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/EditUser.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRWRpdFVzZXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/GetAllLists.razor]
@@ -40,8 +56,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9nSW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/PromoteUser.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvbW90ZVVzZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/SortLists.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU29ydExpc3RzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/Users.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlcnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/ViewSingleList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlld1NpbmdsZUxpc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/ViewSingleTask.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmlld1NpbmdsZVRhc2sucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Shared/SurveyPrompt.razor]

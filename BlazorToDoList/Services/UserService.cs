@@ -1,4 +1,5 @@
 ﻿using BlazorToDoList.Data;
+using BlazorToDoList.Pages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -39,22 +40,23 @@ namespace BlazorToDoList.Services
 
         }
 
-        public void DeleteUser(Guid? id)
+        public async Task<UserItem> DeleteUserAsync(Guid? id)
         {
             var path = "User/DeleteUser";
-            throw new NotImplementedException();
+            var result = await _httpClientWrapper.DeleteAsync<UserItem>(path);
+            return result;
+
         }
 
-        //public UserItem DemoteUser(Guid id, Access access)
-        //{
-        //    var path = "User/DemoteUser";
-        //    throw new NotImplementedException();
-        //}
 
-        public UserItem EditProfile(Guid id, string? username, string? email, string? passwword)
+        public async Task<UserItem> EditProfile(UserItem user)
         {
             var path = "User/EditProfile";
-            throw new NotImplementedException();
+            var stringContent = JsonSerializer.Serialize(user);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            var result = await _httpClientWrapper.PutAsync<UserItem>(path, data);
+
+            return result;
         }
 
         public UserItem GetIndividualUser(Guid id)
@@ -72,11 +74,19 @@ namespace BlazorToDoList.Services
 
         }
 
-        //public UserItem PromoteUser(Guid id, Access access)
+        //public UserItem DemoteUser(Guid id, Access access)
         //{
-        //    var path = "User/PromoteUser";
+        //    var path = "User/DemoteUser";
         //    throw new NotImplementedException();
         //}
+
+        public async Task<UserItem> PromoteUserAsync(UserItem user) //ändrat från guid och access
+        {
+            var path = "User/PromoteUser";
+            var stringContent = JsonSerializer.Serialize(user);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            return await _httpClientWrapper.PutAsync<UserItem>(path, data);
+        }
 
     }
 }

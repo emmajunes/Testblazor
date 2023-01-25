@@ -1,0 +1,25 @@
+﻿@page "/addtask"
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@inject TaskService TaskService;
+
+<h3>AddTask</h3>
+
+<div>
+    <EditForm Model="@taskItem" OnSubmit="@OnSubmit">
+        Title:
+        <InputText id="name" @bind-Value="taskItem.TaskTitle" />
+        Description:
+        <InputText id="name" @bind-Value="taskItem.TaskDescription" />
+        <button type="submit">Submit</button>
+    </EditForm>
+</div>
+
+@code {
+    //Kan inte lägga till prio i koden ovan för att den är en enum?
+    private TaskItem taskItem;
+    public async Task OnSubmit()
+    {
+        //await TaskService.AddTask(taskItem);
+    }
+}

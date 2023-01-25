@@ -1,0 +1,21 @@
+﻿@page "/CreateList"
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@inject ListService ListService;
+
+<h3>CreateList</h3>
+<div>
+    <EditForm Model="@listItem" OnSubmit="@OnSubmit">
+        Title:
+        <InputText id="name" @bind-Value="listItem.ListTitle" />
+        <button type="submit">Submit</button>
+    </EditForm>
+</div>
+@code {
+    //Kan inte lägga till color i koden ovan för att den är en enum?
+    private ToDoListItem listItem;
+    public async Task OnSubmit()
+    {
+        //await ListService.CreateList(listItem);
+    }
+}

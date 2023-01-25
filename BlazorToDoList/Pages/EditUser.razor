@@ -1,7 +1,9 @@
-﻿@page "/CreateUser"
+﻿@page "/EditUser"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @inject UserService UserService;
+
+<h3>EditUser</h3>
 
 <h3>CreateUser</h3>
 <div>
@@ -17,12 +19,10 @@
 </div>
 
 @code {
-    //Kan inte lägga till access i koden ovan för att den är en enum?
     private UserItem newUser = new();
-    private Access access = new();
 
     public async Task OnSubmit()
     {
-        newUser = await UserService.CreateUser(newUser);
+        newUser = await UserService.EditProfile(newUser);
     }
 }

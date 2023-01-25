@@ -22,14 +22,14 @@ namespace BlazorToDoList.Services
             return await JsonSerializer.DeserializeAsync<T>(responseContent);
         }
 
-        //public async Task<T> PutAsync<T>(string path)
-        //{
-        //    var response = await _httpClient.PutAsync(_baseUrl + path);
-        //    response.EnsureSuccessStatusCode();
+        public async Task<T> PutAsync<T>(string path, HttpContent content)
+        {
+            var response = await _httpClient.PutAsync(_baseUrl + path, content);
+            response.EnsureSuccessStatusCode();
 
-        //    using var responseContent = await response.Content.ReadAsStreamAsync();
-        //    return await JsonSerializer.DeserializeAsync<T>(responseContent);
-        //}
+            using var responseContent = await response.Content.ReadAsStreamAsync();
+            return await JsonSerializer.DeserializeAsync<T>(responseContent);
+        }
 
         //public async Task<T> PostAsync<T>(string path, dynamic body)
         //{

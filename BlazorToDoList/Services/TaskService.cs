@@ -38,16 +38,18 @@ namespace BlazorToDoList.Services
             throw new NotImplementedException();
         }
 
-        public TaskItem GetSingleTask(Guid taskId)
+        public async Task<TaskItem>GetSingleTaskAsync(Guid taskId)
         {
             var path = "Task/GetSingleTask";
-            throw new NotImplementedException();
+            return await _httpClientWrapper.GetAsync<TaskItem>(path);
         }
 
-        public IEnumerable<TaskItem> GetTasks()
+        public async Task<IEnumerable<TaskItem>> GetTasksAsync()
         {
             var path = "Task/GetAllTasks";
-            throw new NotImplementedException();
+            var result = await _httpClientWrapper.GetAsync<IEnumerable<TaskItem>>(path);
+
+            return result;
         }
 
         public IEnumerable<TaskItem> SortTasks(SortTask sortAlternative)

@@ -1,0 +1,36 @@
+﻿@page "/singlelist"
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@inject ListService ListService;
+@inject TaskService TaskService;
+@inject NavigationManager NavigationManager;
+
+
+<h3>@list.ListTitle</h3>
+
+<table class="table">
+    <tbody>
+        @foreach (var task in tasks)
+        {
+                <tr>
+                    <td>@task.TaskTitle</td>     
+                    <td>@task.TaskDescription</td>
+                    <td>@task.Completed</td>
+                </tr>
+        }
+    </tbody>
+</table>
+
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/addtask"))" @onclick:preventDefault class="btn btn-primary">Add new task</a>
+
+@code {
+    private ToDoListItem list = new ();
+    private IEnumerable<TaskItem> tasks = new List<TaskItem>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        list = await ListService.GetIndividualListAsync();
+        tasks = await TaskService.GetTasksAsync();
+    }
+}
