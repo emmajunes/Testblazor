@@ -8,18 +8,28 @@
 <div>
     <EditForm Model="@taskItem" OnSubmit="@OnSubmit">
         Title:
-        <InputText id="name" @bind-Value="taskItem.TaskTitle" />
+        <InputText id="title" @bind-Value="taskItem.TaskTitle" />
         Description:
-        <InputText id="name" @bind-Value="taskItem.TaskDescription" />
+        <InputText id="description" @bind-Value="taskItem.TaskDescription" />
+        Priority:
+        <InputSelect id="prio" @bind-Value="taskItem.TaskPrio" class="form-control">
+
+            @foreach (var prio in Enum.GetValues(typeof(Priority)))
+            {
+                <option value="@prio">@prio</option>
+
+            }
+        </InputSelect>
         <button type="submit">Submit</button>
     </EditForm>
 </div>
 
 @code {
-    //Kan inte lägga till prio i koden ovan för att den är en enum?
-    private TaskItem taskItem;
+    private TaskItem taskItem = new();
+    private Priority prio = new();
+
     public async Task OnSubmit()
     {
-        //await TaskService.AddTask(taskItem);
+        taskItem = await TaskService.AddTaskAsync(taskItem);
     }
 }

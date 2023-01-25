@@ -1,6 +1,9 @@
 ﻿using BlazorToDoList.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorToDoList.Services
@@ -14,10 +17,12 @@ namespace BlazorToDoList.Services
             _httpClientWrapper = client;
         }
 
-        public ToDoListItem AddTask(string taskTitle, string taskDescription, Priority taskPrio)
+        public async Task<TaskItem>AddTaskAsync(TaskItem task)
         {
             var path = "Task/AddTask";
-            throw new NotImplementedException();
+            var stringContent = JsonSerializer.Serialize(task);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            return await _httpClientWrapper.PostAsync<TaskItem>(path, data);
         }
 
         public void ChangeSortTypeForTask(SortTask sortAlternative)
