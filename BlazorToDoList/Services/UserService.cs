@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
 using System.Text.Json;
@@ -25,7 +26,9 @@ namespace BlazorToDoList.Services
             var path = "User/Login";
             var stringContent = JsonSerializer.Serialize(user);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
-            return await _httpClientWrapper.PostAsync<UserItem>(path, data);
+            var response = await _httpClientWrapper.PostAsync<UserItem>(path, data);
+            
+            return response;
         }
 
 
@@ -59,10 +62,12 @@ namespace BlazorToDoList.Services
             return result;
         }
 
-        public UserItem GetIndividualUser(Guid id)
+        public async Task<UserItem> GetIndividualUserAsync()
         {
             var path = "User/GetSingleUser";
-            throw new NotImplementedException();
+            //var stringContent = JsonSerializer.Serialize(id);
+            //var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            return await _httpClientWrapper.GetAsync<UserItem>(path);
         }
 
         public async Task<IEnumerable<UserItem>> GetUsersAsync()

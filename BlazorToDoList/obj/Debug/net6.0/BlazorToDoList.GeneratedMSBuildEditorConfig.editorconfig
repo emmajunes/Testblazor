@@ -48,6 +48,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2V0QWxsTGlzdHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/GetCurrentUserLists.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2V0Q3VycmVudFVzZXJMaXN0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/GetSingleUser.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2V0U2luZ2xlVXNlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Emma Junes/source/repos/BlazorToDoList/BlazorToDoList/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 

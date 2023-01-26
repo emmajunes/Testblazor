@@ -1,15 +1,19 @@
 ﻿@page "/LogIn"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+@using System.Text;
+@using ToDoList.API;
 @inject UserService UserService;
+@inject NavigationManager NavigationManager;
 
 <h3>LogIn</h3>
 <div>
 <EditForm Model="@user" OnSubmit="@OnSubmit">
     Username:
-    <InputText id="name" @bind-Value="user.Username" />
+    <InputText id="username" @bind-Value="user.Username" />
     Password:
-        <InputText id="name" @bind-Value="user.Password" />
+        <InputText type="password" id="password" @bind-Value="user.Password" />
     <button type="submit">Submit</button>
 </EditForm>
 @user.Email
@@ -21,6 +25,7 @@
     public async Task OnSubmit()
     {
         user = await UserService.Authenticate(user);
+        //CurrentRecord.Id["UserId"] = user.Id.ToString();
+        NavigationManager.NavigateTo("/singleuser", true);
     }
-
 }

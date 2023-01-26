@@ -1,5 +1,6 @@
 using BlazorToDoList.Data;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorToDoList
@@ -20,6 +21,7 @@ namespace BlazorToDoList
             {
                 client.BaseAddress = new Uri("http://localhost:7015");
             });
+
 
             var app = builder.Build();
 

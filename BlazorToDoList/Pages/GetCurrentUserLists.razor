@@ -1,0 +1,37 @@
+﻿@page "/currentuserlists"
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@using ToDoList.API;
+@inject ListService ListService;
+@inject NavigationManager NavigationManager
+
+<h3>GetCurrentUserLists</h3>
+
+<table class="table">
+    <tbody>
+        @foreach (var list in currentUserLists)
+        {
+                <tr>
+                    <td>@list.ListTitle</td>  
+                    <td>@list.TitleColor</td>     
+                </tr>
+                <button @onclick="() => GoToList(list)" class="btn btn-secondary align-self-end">Go To List</button>
+        }
+    </tbody>
+</table>
+
+@code {
+    private IEnumerable<ToDoListItem> currentUserLists = new List<ToDoListItem>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentUserLists = await ListService.GetCurrentUserListsAsync();
+    }
+
+    public void GoToList(ToDoListItem listItem)
+    {
+        CurrentRecord.Id["ListId"] = listItem.Id.ToString();
+        NavigationManager.NavigateTo("/singlelist", true);
+    }
+}

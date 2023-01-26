@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using System.Text.Json;
 using static System.Net.WebRequestMethods;
 
 namespace BlazorToDoList.Services
@@ -6,6 +7,7 @@ namespace BlazorToDoList.Services
     public class HttpClientWrapperService
     {
         public HttpClient _httpClient;
+
         private readonly string _baseUrl = "https://localhost:7015/api/";
 
         public HttpClientWrapperService(HttpClient client)
@@ -15,6 +17,7 @@ namespace BlazorToDoList.Services
 
         public async Task<T> GetAsync<T>(string path)
         {
+            //var cookies = _httpContext.HttpContext.Request.Cookies["auth"];
             var response = await _httpClient.GetAsync(_baseUrl + path);
             response.EnsureSuccessStatusCode();
 

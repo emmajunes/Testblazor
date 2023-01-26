@@ -1,16 +1,42 @@
 ﻿@page "/sortlists"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
+@inject ListService ListService;
+@inject NavigationManager NavigationManager;
 
-<h3>SortLists</h3>
+<h3>Sort Lists</h3>
+<br />
 
 How do you want to sort?
+<br /><br />
+<div>
+    <EditForm Model="@user" OnSubmit="@Update">
+        <InputSelect id="sort" @bind-Value="user.SortBy" class="form-control">
 
-@SortList.Descending
+            @foreach (var sort in Enum.GetValues(typeof(SortList)))
+            {
+                <option @onclick="@Update" value="@sort">@sort</option>
+
+            }
+        </InputSelect>  
+    </EditForm>
+</div>
+
+        
+
+
 
 
 
 @code {
-    private SortList _sortBy;
+    private SortList _sortBy = new();
+    private UserItem user = new();
+
+
+    public async Task Update()
+    {
+        //user = await ListService.SortListsAsync(user);
+        NavigationManager.NavigateTo("/getalllists", true);
+    }
 
 }

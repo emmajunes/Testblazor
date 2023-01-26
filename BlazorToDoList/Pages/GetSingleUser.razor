@@ -1,0 +1,28 @@
+﻿@page "/singleuser"
+
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@using ToDoList.API;
+@inject UserService UserService;
+
+<h3>GetSingleUser</h3>
+
+ <tr>
+                    <td>@currentUser.Username</td>     
+                    <td>@currentUser.Password</td>
+                    <td>@currentUser.Email</td>
+                    <td>@currentUser.Access</td>
+                </tr>
+
+@code {
+
+    private UserItem currentUser = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        //var userId = CurrentRecord.Id["UserId"];
+
+        currentUser = await UserService.GetIndividualUserAsync();
+    }
+}

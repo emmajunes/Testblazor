@@ -56,6 +56,8 @@ namespace BlazorToDoList.Services
         public async Task<IEnumerable<ToDoListItem>> GetCurrentUserListsAsync()
         {
             var path =  "List/GetCurrentUserLists";
+            //var stringContent = JsonSerializer.Serialize(id);
+            //var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
             return await _httpClientWrapper.GetAsync<IEnumerable<ToDoListItem>>(path);
         }
 
@@ -76,9 +78,12 @@ namespace BlazorToDoList.Services
 
         }
 
-        //public IEnumerable<ToDoListItem> SortLists(SortList sortAlternative, string userId)
+        //public async Task<IEnumerable<ToDoListItem>> SortListsAsync(UserItem user)
         //{
-        //    var path = "List/SortList";
+        //    //var path = "List/SortList";
+        //    //var stringContent = JsonSerializer.Serialize(user);
+        //    //var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+        //    //return await _httpClientWrapper.PutAsync<ToDoListItem>(path, data);
         //}
     }
 }
