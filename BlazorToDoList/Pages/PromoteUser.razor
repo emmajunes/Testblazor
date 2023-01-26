@@ -26,6 +26,6 @@
 
     public async Task OnSubmit()
     {
-        user = await UserService.PromoteUserAsync(user);
+        user = await UserService.PromoteUserAsync(user); //själva metoden funkar men ingen säkerhet att bara admin får göra det
     }
 }

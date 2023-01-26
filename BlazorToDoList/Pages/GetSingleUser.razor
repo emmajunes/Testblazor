@@ -4,15 +4,22 @@
 @using BlazorToDoList.Services;
 @using ToDoList.API;
 @inject UserService UserService;
+@inject NavigationManager NavigationManager;
 
-<h3>GetSingleUser</h3>
+<h3>Welcome @currentUser.Username</h3>
 
- <tr>
-                    <td>@currentUser.Username</td>     
-                    <td>@currentUser.Password</td>
-                    <td>@currentUser.Email</td>
-                    <td>@currentUser.Access</td>
-                </tr>
+<br />
+Username:@currentUser.Username
+<br/>
+Email:@currentUser.Email
+<br/>
+Access:@currentUser.Access
+<br />
+<br/>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/currentuserlists"))" @onclick:preventDefault class="btn btn-primary">View your lists</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/edituser"))" @onclick:preventDefault class="btn btn-primary">Edit your profile</a>
+
+
 
 @code {
 
@@ -23,6 +30,6 @@
     {
         //var userId = CurrentRecord.Id["UserId"];
 
-        currentUser = await UserService.GetIndividualUserAsync();
+        currentUser = await UserService.GetIndividualUserAsync(); //funkar men ska jag använda den även när en admin klickar på en user?
     }
 }

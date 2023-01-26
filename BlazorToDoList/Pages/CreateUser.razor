@@ -1,28 +1,37 @@
 ﻿@page "/CreateUser"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
+@using ToDoList.API;
 @inject UserService UserService;
+@inject NavigationManager NavigationManager;
 
-<h3>CreateUser</h3>
+<h3>Create User</h3>
+<br />
+
 <div>
     <EditForm Model="@newUser" OnSubmit="@OnSubmit">
         Username:
         <InputText id="name" @bind-Value="newUser.Username" />
+        <br />
         Password:
         <InputText id="name" @bind-Value="newUser.Password" />
+        <br />
         Email:
         <InputText id="name" @bind-Value="newUser.Email" />
+        <br />
         <button type="submit">Submit</button>
     </EditForm>
 </div>
 
 @code {
-    //Kan inte lägga till access i koden ovan för att den är en enum?
     private UserItem newUser = new();
-    private Access access = new();
 
     public async Task OnSubmit()
     {
         newUser = await UserService.CreateUser(newUser);
+
+        //ändra för om en admin skapar en user så att man inte skickas till login
+        //lägg till funktion som meddelar användaren att den skapat sitt konto och kan logga in?
+        NavigationManager.NavigateTo("/login", true); 
     }
 }

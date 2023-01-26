@@ -43,7 +43,7 @@ namespace BlazorToDoList.Services
 
         }
 
-        public async Task<UserItem> DeleteUserAsync(Guid? id)
+        public async Task<UserItem> DeleteUserAsync()
         {
             var path = "User/DeleteUser";
             var result = await _httpClientWrapper.DeleteAsync<UserItem>(path);

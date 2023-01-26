@@ -11,7 +11,6 @@ namespace BlazorToDoList.Services
     public class TaskService : ITaskService
     {
         private readonly HttpClientWrapperService _httpClientWrapper;
-
         public TaskService(HttpClientWrapperService client)
         {
             _httpClientWrapper = client;

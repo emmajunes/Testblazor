@@ -20,11 +20,6 @@ namespace BlazorToDoList.Services
             _httpClientWrapper = client;
         }
 
-        //public void ChangeSortType(SortList sortAlternative, string userId)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public async Task<ToDoListItem> CreateListAsync(ToDoListItem listItem)
         {
             var path = "List/CreateList";
@@ -39,25 +34,12 @@ namespace BlazorToDoList.Services
         {
             var path = "List/DeleteList";
             return await _httpClientWrapper.DeleteAsync<ToDoListItem>(path);
-  
+
         }
-
-        //public ToDoListItem EditList(HttpContent content)
-        //{
-        //    var path = "List/EditList";
-            
-        //}
-        //public ToDoListItem EditTitleColor(HttpContent content)
-        //{
-
-        //    var path = "List/EditTitleColor";
-        //}
 
         public async Task<IEnumerable<ToDoListItem>> GetCurrentUserListsAsync()
         {
             var path =  "List/GetCurrentUserLists";
-            //var stringContent = JsonSerializer.Serialize(id);
-            //var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
             return await _httpClientWrapper.GetAsync<IEnumerable<ToDoListItem>>(path);
         }
 
@@ -77,6 +59,28 @@ namespace BlazorToDoList.Services
             return await _httpClientWrapper.GetAsync<IEnumerable<ToDoListItem>>(path);
 
         }
+
+        public async Task<ToDoListItem> EditList(ToDoListItem listItem)
+        {
+            var path = "List/EditList";
+            var stringContent = JsonSerializer.Serialize(listItem);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            var result = await _httpClientWrapper.PutAsync<ToDoListItem>(path, data);
+
+            return result;
+            
+
+        }
+        //public ToDoListItem EditTitleColor(HttpContent content)
+        //{
+
+        //    var path = "List/EditTitleColor";
+        //}
+
+        //public void ChangeSortType(SortList sortAlternative, string userId)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         //public async Task<IEnumerable<ToDoListItem>> SortListsAsync(UserItem user)
         //{

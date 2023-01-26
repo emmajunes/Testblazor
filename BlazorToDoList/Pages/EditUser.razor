@@ -5,7 +5,6 @@
 
 <h3>EditUser</h3>
 
-<h3>CreateUser</h3>
 <div>
     <EditForm Model="@newUser" OnSubmit="@OnSubmit">
         Username:
@@ -23,6 +22,6 @@
 
     public async Task OnSubmit()
     {
-        newUser = await UserService.EditProfile(newUser);
+        newUser = await UserService.EditProfile(newUser); //Funkar någorlunda men hur funkar det med admin?
     }
 }

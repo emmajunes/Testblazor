@@ -34,6 +34,6 @@
         var listId = CurrentRecord.Id["ListId"];
 
         list = await ListService.GetIndividualListAsync(Guid.Parse(listId));
-        tasks = await TaskService.GetTasksAsync();
+        tasks = await TaskService.GetTasksAsync(); 
     }
 }

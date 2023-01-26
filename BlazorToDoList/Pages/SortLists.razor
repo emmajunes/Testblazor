@@ -24,10 +24,6 @@ How do you want to sort?
 
         
 
-
-
-
-
 @code {
     private SortList _sortBy = new();
     private UserItem user = new();
@@ -35,7 +31,7 @@ How do you want to sort?
 
     public async Task Update()
     {
-        //user = await ListService.SortListsAsync(user);
+        //user = await ListService.SortListsAsync(user); //funkar ej
         NavigationManager.NavigateTo("/getalllists", true);
     }
 

@@ -1,7 +1,9 @@
 ﻿@page "/CreateList"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
+@using ToDoList.API;
 @inject ListService ListService;
+@inject NavigationManager NavigationManager;
 
 <h3>CreateList</h3>
 <div>
@@ -21,11 +23,12 @@
     </EditForm>
 </div>
 @code {
-    //Kan inte lägga till color i koden ovan för att den är en enum?
+
     private ToDoListItem listItem = new();
     private Color color = new();
     public async Task OnSubmit()
     {
-        await ListService.CreateListAsync(listItem);
+        var listIten = await ListService.CreateListAsync(listItem);
+        NavigationManager.NavigateTo("/currentuserlists", true);
     }
 }

@@ -1,7 +1,9 @@
 ﻿@page "/Users"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
+@using ToDoList.API;
 @inject UserService UserService;
+@inject NavigationManager NavigationManager;
 
 <h3>Användare</h3>
 
@@ -14,6 +16,7 @@
                     <td>@user.Email</td>
                     <td>@user.Access</td>
                 </tr>
+            <button @onclick="() => GoToUser(user)" class="btn btn-secondary align-self-end">Go To User</button>
         }
     </tbody>
 </table>
@@ -24,8 +27,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-
         users = await UserService.GetUsersAsync();
-
+    }
+    public void GoToUser(UserItem user)
+    {
+        CurrentRecord.Id["UserIdAdmin"] = user.Id.ToString();
+        NavigationManager.NavigateTo("/singleuser", true); //funkar men ingen säkerhet att bara admin får se
     }
 }
