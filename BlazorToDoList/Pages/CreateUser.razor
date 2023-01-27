@@ -2,7 +2,7 @@
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @using ToDoList.API;
-@inject UserService UserService;
+@inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
 <h3>Create User</h3>
@@ -10,14 +10,18 @@
 
 <div>
     <EditForm Model="@newUser" OnSubmit="@OnSubmit">
+        <DataAnnotationsValidator />
         Username:
-        <InputText id="name" @bind-Value="newUser.Username" />
+        <InputText id="username" @bind-Value="newUser.Username" />
+        <ValidationMessage For="@(() => newUser.Username)" />
         <br />
         Password:
-        <InputText id="name" @bind-Value="newUser.Password" />
+        <InputText type="password" id="password" @bind-Value="newUser.Password" />
+        <ValidationMessage For="@(() => newUser.Password)" />
         <br />
         Email:
-        <InputText id="name" @bind-Value="newUser.Email" />
+        <InputText id="email" @bind-Value="newUser.Email" />
+        <ValidationMessage For="@(() => newUser.Email)" />
         <br />
         <button type="submit">Submit</button>
     </EditForm>
@@ -28,7 +32,7 @@
 
     public async Task OnSubmit()
     {
-        newUser = await UserService.CreateUser(newUser);
+        newUser = await UserService.CreateUserAsync(newUser);
 
         //ändra för om en admin skapar en user så att man inte skickas till login
         //lägg till funktion som meddelar användaren att den skapat sitt konto och kan logga in?

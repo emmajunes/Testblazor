@@ -1,25 +1,25 @@
-﻿using ToDoList.API.Models;
+﻿using BlazorToDoList.Data;
+using ToDoList.API.Models;
 
 namespace BlazorToDoList.Services
 {
     public interface IListService
     {
-        //ToDoListDto CreateList(string title, Color color, System.Security.Principal.IIdentity identity, string userId);
-        //IEnumerable<ToDoListDto> GetAllLists();
+        Task<ToDoListItem> CreateListAsync(ToDoListItem listItem);
+        Task<ToDoListItem> DeleteListAsync();
+        Task<IEnumerable<ToDoListItem>> GetCurrentUserListsAsync();
+        Task<ToDoListItem> GetSingleListAsync(Guid listId);
 
-        //ToDoListDto GetIndividualList(Guid id);
+        Task<IEnumerable<ToDoListItem>> GetAllListsAsync();
+        Task<ToDoListItem> EditListAsync(ToDoListItem listItem);
 
-        //IEnumerable<ToDoListDto> GetCurrentUserLists(System.Security.Principal.IIdentity identity, string userId);
+        Task<ToDoListItem> EditTitleColorAsync(ToDoListItem listItem);
+        Task<IEnumerable<ToDoListItem>> SortListsAsync(UserItem user);
 
-        //void DeleteList(Guid? id);
 
-        //ToDoListDto EditList(string title);
 
-        //ToDoListDto EditTitleColor(Color color);
 
-        //IEnumerable<ToDoListDto> SortLists(SortList sortAlternative, string userId);
 
-        //void ChangeSortType(SortList sortAlternative, string userId);
 
     }
 }

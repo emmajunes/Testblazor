@@ -1,7 +1,7 @@
 ﻿@page "/EditList"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
-@inject ListService ListService;
+@inject IListService ListService;
 @inject NavigationManager NavigationManager;
 
 <h3>EditList</h3>
@@ -11,16 +11,25 @@
     <EditForm Model="@listItem" OnSubmit="@OnSubmit">
         New title:
         <InputText id="name" @bind-Value="listItem.ListTitle" />
+        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control">
+            New titlecolor:
+            @foreach (var color in Enum.GetValues(typeof(Color)))
+            {
+                    <option value="@color">@color</option>
+            }
+        </InputSelect>
         <button type="submit">Submit</button>
     </EditForm>
 </div>
 
 @code {
     private ToDoListItem listItem = new();
-    private Color color = new();
+    //private Color color = new();
+
     public async Task OnSubmit()
     {
-        var listIten = await ListService.EditList(listItem);
+        await ListService.EditListAsync(listItem);
+        await ListService.EditTitleColorAsync(listItem);
         NavigationManager.NavigateTo("/singlelist", true);
     }
 }

@@ -43,7 +43,7 @@ namespace BlazorToDoList.Services
             return await _httpClientWrapper.GetAsync<IEnumerable<ToDoListItem>>(path);
         }
 
-        public async Task<ToDoListItem> GetIndividualListAsync(Guid listId)
+        public async Task<ToDoListItem> GetSingleListAsync(Guid listId)
         {
             var path= "List/GetSingleList";
             
@@ -60,7 +60,7 @@ namespace BlazorToDoList.Services
 
         }
 
-        public async Task<ToDoListItem> EditList(ToDoListItem listItem)
+        public async Task<ToDoListItem> EditListAsync(ToDoListItem listItem)
         {
             var path = "List/EditList";
             var stringContent = JsonSerializer.Serialize(listItem);
@@ -71,23 +71,24 @@ namespace BlazorToDoList.Services
             
 
         }
-        //public ToDoListItem EditTitleColor(HttpContent content)
-        //{
+        public async Task<ToDoListItem> EditTitleColorAsync(ToDoListItem listItem)
+        {
 
-        //    var path = "List/EditTitleColor";
-        //}
+            var path = "List/EditTitleColor";
+            var stringContent = JsonSerializer.Serialize(listItem);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            var result = await _httpClientWrapper.PutAsync<ToDoListItem>(path, data);
 
-        //public void ChangeSortType(SortList sortAlternative, string userId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            return result;
+        }
 
-        //public async Task<IEnumerable<ToDoListItem>> SortListsAsync(UserItem user)
-        //{
-        //    //var path = "List/SortList";
-        //    //var stringContent = JsonSerializer.Serialize(user);
-        //    //var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
-        //    //return await _httpClientWrapper.PutAsync<ToDoListItem>(path, data);
-        //}
+
+        public async Task<IEnumerable<ToDoListItem>> SortListsAsync(UserItem user)
+        {
+            var path = "List/SortList";
+            var stringContent = JsonSerializer.Serialize(user);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            return await _httpClientWrapper.PutAsync<IEnumerable<ToDoListItem>>(path, data);
+        }
     }
 }

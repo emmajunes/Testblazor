@@ -15,12 +15,18 @@ namespace BlazorToDoList.Data
         public Guid Id { get; set; } = Guid.NewGuid();
 
         [JsonPropertyName("username")]
+        [MinLength(6, ErrorMessage = "Must be atleast 6 characters.")]
+        [Required]
         public string Username { get; set; }
 
         [JsonPropertyName("email")]
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         [JsonPropertyName("password")]
+        [MinLength(8, ErrorMessage ="Must be atleast 8 characters.")]
+        [Required]
         public string Password { get; set; }
 
         [JsonPropertyName("access")]

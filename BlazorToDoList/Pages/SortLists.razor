@@ -1,7 +1,8 @@
 ﻿@page "/sortlists"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
-@inject ListService ListService;
+@inject IListService ListService;
+@inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
 <h3>Sort Lists</h3>
@@ -10,29 +11,34 @@
 How do you want to sort?
 <br /><br />
 <div>
-    <EditForm Model="@user" OnSubmit="@Update">
-        <InputSelect id="sort" @bind-Value="user.SortBy" class="form-control">
+    <EditForm Model="@_user" OnSubmit="@Update">
+        <InputSelect id="sort" @bind-Value="_user.SortBy" class="form-control">
 
             @foreach (var sort in Enum.GetValues(typeof(SortList)))
             {
                 <option @onclick="@Update" value="@sort">@sort</option>
-
             }
-        </InputSelect>  
+        </InputSelect>
+        <button type="submit">Update</button>
     </EditForm>
 </div>
 
-        
-
 @code {
     private SortList _sortBy = new();
-    private UserItem user = new();
+    private UserItem _user = new();
+    private IEnumerable<ToDoListItem> lists = new List<ToDoListItem>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        _user = await UserService.GetSingleUserAsync();
+        lists = await ListService.GetCurrentUserListsAsync();
+
+    }
 
     public async Task Update()
     {
-        //user = await ListService.SortListsAsync(user); //funkar ej
-        NavigationManager.NavigateTo("/getalllists", true);
+        lists = await ListService.SortListsAsync(_user); //funkar ej
+        NavigationManager.NavigateTo("/currentuserlists", true);
     }
 
 }

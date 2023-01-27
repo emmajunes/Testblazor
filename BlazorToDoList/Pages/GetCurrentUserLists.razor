@@ -2,7 +2,7 @@
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @using ToDoList.API;
-@inject ListService ListService;
+@inject IListService ListService;
 @inject NavigationManager NavigationManager
 
 <h3>GetCurrentUserLists</h3>
@@ -20,9 +20,11 @@
     </tbody>
 </table>
 
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/createlist"))" @onclick:preventDefault class="btn btn-primary">Create new list</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/sortlists"))" @onclick:preventDefault class="btn btn-primary">Sortera listor</a>
+
 @code {
     private IEnumerable<ToDoListItem> currentUserLists = new List<ToDoListItem>();
-
 
     protected override async Task OnInitializedAsync()
     {

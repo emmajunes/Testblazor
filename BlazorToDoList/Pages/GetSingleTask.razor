@@ -1,0 +1,32 @@
+﻿@page "/singletask"
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@using ToDoList.API;
+
+@inject ITaskService TaskService;
+@inject NavigationManager NavigationManager;
+
+<h3>@task.TaskTitle</h3>
+
+<table class="table">
+    <tbody>
+            <tr>
+                <td>@task.TaskTitle</td>
+                <td>@task.TaskDescription</td>
+                <td>@task.Completed</td>
+            </tr>
+    </tbody>
+</table>
+
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/edittask"))" @onclick:preventDefault class="btn btn-primary">Edit task</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/deletetask"))" @onclick:preventDefault class="btn btn-primary">Delete task</a>
+@code {
+    private TaskItem task = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var taskId = CurrentRecord.Id["TaskId"];
+
+        task = await TaskService.GetSingleTaskAsync(Guid.Parse(taskId));
+    }
+}

@@ -1,39 +1,34 @@
-﻿@page "/addtask"
+﻿@page "/edittask"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @inject ITaskService TaskService;
 @inject NavigationManager NavigationManager;
 
-<h3>Add Task</h3>
-<br />
+<h3>EditTask</h3>
+
 <div>
     <EditForm Model="@taskItem" OnSubmit="@OnSubmit">
-        Title:
-        <InputText id="title" @bind-Value="taskItem.TaskTitle" />
-        <br />
-        Description:
-        <InputText id="description" @bind-Value="taskItem.TaskDescription" />
-        <br />
-        Priority:
-        <InputSelect id="prio" @bind-Value="taskItem.TaskPrio" class="form-control">
-
+        New title:
+        <InputText id="name" @bind-Value="taskItem.TaskTitle" />
+        New description:
+        <InputText id="description" @bind-Value="taskItem.TaskDescription" /> 
+        New priority:
+        <InputSelect id="prio" @bind-Value="taskItem.TaskPrio" class="form-control">    
             @foreach (var prio in Enum.GetValues(typeof(Priority)))
             {
-                <option value="@prio">@prio</option>
+                    <option value="@prio">@prio</option>
             }
         </InputSelect>
-        <br />
         <button type="submit">Submit</button>
     </EditForm>
 </div>
 
 @code {
     private TaskItem taskItem = new();
-    private Priority prio = new();
 
     public async Task OnSubmit()
     {
-        taskItem = await TaskService.AddTaskAsync(taskItem);
+        taskItem = await TaskService.EditTaskAsync(taskItem);
         NavigationManager.NavigateTo("/singlelist", true);
     }
 }

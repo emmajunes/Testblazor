@@ -1,7 +1,8 @@
-﻿@page "/EditUser"
+﻿@page "/editprofile"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
-@inject UserService UserService;
+@inject IUserService UserService;
+@inject NavigationManager NavigationManager;
 
 <h3>EditUser</h3>
 
@@ -22,6 +23,7 @@
 
     public async Task OnSubmit()
     {
-        newUser = await UserService.EditProfile(newUser); //Funkar någorlunda men hur funkar det med admin?
+        newUser = await UserService.EditProfileAsync(newUser);
+        NavigationManager.NavigateTo("/singleuser", true); //Funkar någorlunda men hur funkar det med admin?
     }
 }

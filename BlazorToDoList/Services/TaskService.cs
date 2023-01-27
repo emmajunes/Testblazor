@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text;
 using System.Threading.Tasks;
+using BlazorToDoList.Pages;
 
 namespace BlazorToDoList.Services
 {
@@ -15,7 +16,6 @@ namespace BlazorToDoList.Services
         {
             _httpClientWrapper = client;
         }
-
         public async Task<TaskItem>AddTaskAsync(TaskItem task)
         {
             var path = "Task/AddTask";
@@ -24,28 +24,32 @@ namespace BlazorToDoList.Services
             return await _httpClientWrapper.PostAsync<TaskItem>(path, data);
         }
 
-        public void ChangeSortTypeForTask(SortTask sortAlternative)
-        {
+        //public void ChangeSortTypeForTask(SortTask sortAlternative)
+        //{
            
-            throw new NotImplementedException();
-        }
+        //    throw new NotImplementedException();
+        //}
 
-        public void DeleteTask()
+        public async Task<TaskItem> DeleteTaskAsync()
         {
             var path = "Task/DeleteTask";
-            throw new NotImplementedException();
+            return await _httpClientWrapper.DeleteAsync<TaskItem>(path);
         }
 
-        public TaskItem EditTask(string? title, string? description, Priority? prio)
+        public async Task<TaskItem> EditTaskAsync(TaskItem task)
         {
             var path = "Task/EditTask";
-            throw new NotImplementedException();
+            var stringContent = JsonSerializer.Serialize(task);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            return await _httpClientWrapper.PutAsync<TaskItem>(path, data);
         }
 
         public async Task<TaskItem>GetSingleTaskAsync(Guid taskId)
         {
             var path = "Task/GetSingleTask";
-            return await _httpClientWrapper.GetAsync<TaskItem>(path);
+            var stringContent = JsonSerializer.Serialize(taskId);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            return await _httpClientWrapper.PutAsync<TaskItem>(path,data);
         }
 
         public async Task<IEnumerable<TaskItem>> GetTasksAsync()
@@ -55,17 +59,20 @@ namespace BlazorToDoList.Services
 
             return result;
         }
-
-        public IEnumerable<TaskItem> SortTasks(SortTask sortAlternative)
+        public async Task<IEnumerable<TaskItem>> SortTasksAsync(ToDoListItem listItem)
         {
             var path = "Task/SortTasks";
-            throw new NotImplementedException();
+            var stringContent = JsonSerializer.Serialize(listItem);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            return await _httpClientWrapper.PutAsync<IEnumerable<TaskItem>>(path, data);
         }
-
-        public TaskItem ToggleTask(bool completed)
+        public async Task<TaskItem> ToggleTaskAsync(TaskItem task)
         {
             var path = "Task/ToggleTask";
-            throw new NotImplementedException();
+            var stringContent = JsonSerializer.Serialize(task);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            return await _httpClientWrapper.PutAsync<TaskItem>(path, data);
+
         }
     }
 }

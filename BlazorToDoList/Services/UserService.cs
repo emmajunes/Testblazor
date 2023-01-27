@@ -32,7 +32,7 @@ namespace BlazorToDoList.Services
         }
 
 
-        public async Task<UserItem> CreateUser(UserItem user)
+        public async Task<UserItem> CreateUserAsync(UserItem user)
         {
             var path = "User/CreateUser";
             var stringContent = JsonSerializer.Serialize(user);
@@ -51,8 +51,7 @@ namespace BlazorToDoList.Services
 
         }
 
-
-        public async Task<UserItem> EditProfile(UserItem user)
+        public async Task<UserItem> EditProfileAsync(UserItem user)
         {
             var path = "User/EditProfile";
             var stringContent = JsonSerializer.Serialize(user);
@@ -62,7 +61,7 @@ namespace BlazorToDoList.Services
             return result;
         }
 
-        public async Task<UserItem> GetIndividualUserAsync()
+        public async Task<UserItem> GetSingleUserAsync()
         {
             var path = "User/GetSingleUser";
             //var stringContent = JsonSerializer.Serialize(id);
@@ -79,7 +78,7 @@ namespace BlazorToDoList.Services
 
         }
 
-        //public UserItem DemoteUser(Guid id, Access access)
+        //public async Task<UserItem> DemoteUserAsync(Guid id, Access access)
         //{
         //    var path = "User/DemoteUser";
         //    throw new NotImplementedException();
@@ -88,6 +87,14 @@ namespace BlazorToDoList.Services
         public async Task<UserItem> PromoteUserAsync(UserItem user) //ändrat från guid och access
         {
             var path = "User/PromoteUser";
+            var stringContent = JsonSerializer.Serialize(user);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            return await _httpClientWrapper.PutAsync<UserItem>(path, data);
+        }
+
+        public async Task<UserItem>ChangeSortType(UserItem user)
+        {
+            var path = "User/ChangeSortType";
             var stringContent = JsonSerializer.Serialize(user);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
             return await _httpClientWrapper.PutAsync<UserItem>(path, data);

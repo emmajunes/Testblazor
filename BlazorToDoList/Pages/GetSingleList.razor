@@ -1,0 +1,61 @@
+﻿@page "/singlelist"
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@using ToDoList.API;
+@inject IListService ListService;
+@inject ITaskService TaskService;
+@inject NavigationManager NavigationManager;
+
+<h3>@list.ListTitle</h3>
+
+<table class="table">
+    <tbody>
+        @foreach (var task in tasks)
+        {           
+                <tr>
+                    <td>@task.TaskTitle</td>     
+                    <td>@task.TaskDescription</td>
+                    <td>@task.Completed</td>
+                </tr>
+            <button @onclick="() => GoToTask(task)" class="btn btn-secondary align-self-end">Go To Task</button>
+            <button @onclick="() => ToggleTask(task)" class="btn btn-secondary align-self-end">Toggle Task</button>
+        }
+    </tbody>
+</table>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/deletelist"))" @onclick:preventDefault class="btn btn-primary">Delete this list</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/editlist"))" @onclick:preventDefault class="btn btn-primary">Edit list</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/addtask"))" @onclick:preventDefault class="btn btn-primary">Add new task</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/sorttasks"))" @onclick:preventDefault class="btn btn-primary">Sort tasks</a>
+
+@code {
+    private ToDoListItem list = new ();
+    private IEnumerable<TaskItem> tasks = new List<TaskItem>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var listId = CurrentRecord.Id["ListId"];
+
+        list = await ListService.GetSingleListAsync(Guid.Parse(listId));
+        tasks = await TaskService.GetTasksAsync(); 
+    }
+
+    public void GoToTask(TaskItem taskItem)
+    {
+        CurrentRecord.Id["TaskId"] = taskItem.Id.ToString();
+        NavigationManager.NavigateTo("/singletask", true);
+    }
+
+    public void ToggleTask(TaskItem taskItem) 
+    {
+        CurrentRecord.Id["TaskId"] = taskItem.Id.ToString();
+        TaskService.ToggleTaskAsync(taskItem);
+        NavigationManager.NavigateTo("/singlelist", true);
+    }
+
+    //public void DeleteTask(TaskItem taskItem)  // vill jag göra att man ska kunna deleta på denna nivån?
+    //{
+    //    CurrentRecord.Id["TaskId"] = taskItem.Id.ToString();
+    //    TaskService.DeleteTaskAsync();
+    //    NavigationManager.NavigateTo("/singlelist", true);
+    //}
+}

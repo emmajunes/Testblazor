@@ -1,0 +1,41 @@
+﻿@page "/sorttasks"
+
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@inject ITaskService TaskService;
+@inject NavigationManager NavigationManager;
+
+<h3>SortTasks</h3>
+
+How do you want to sort?
+<br /><br />
+<div>
+    <EditForm Model="@_list" OnSubmit="@Update">
+        <InputSelect id="sort" @bind-Value="_list.Sortby" class="form-control">
+
+            @foreach (var sort in Enum.GetValues(typeof(SortTask)))
+            {
+                    <option @onclick="@Update" value="@sort">@sort</option>
+            }
+        </InputSelect>
+        <button type="submit">Update</button>
+    </EditForm>
+</div>
+
+@code {
+    private SortTask _sortBy = new();
+    private TaskItem _task = new();
+    private ToDoListItem _list = new ();
+    private IEnumerable<TaskItem> tasks = new List<TaskItem>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        tasks = await TaskService.GetTasksAsync();
+    }
+
+    public async Task Update()
+    {
+        await TaskService.SortTasksAsync(_list); //funkar ej
+        NavigationManager.NavigateTo("/singlelist", true);
+    }
+}

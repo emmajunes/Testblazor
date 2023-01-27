@@ -1,4 +1,5 @@
 using BlazorToDoList.Data;
+using BlazorToDoList.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Components.Web;
@@ -14,9 +15,9 @@ namespace BlazorToDoList
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
-            builder.Services.AddScoped<Services.ListService>();
-            builder.Services.AddScoped<Services.TaskService>();
-            builder.Services.AddScoped<Services.UserService>();
+            builder.Services.AddScoped<IListService, ListService>();
+            builder.Services.AddScoped<ITaskService, TaskService>();
+            builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddHttpClient<Services.HttpClientWrapperService>(client =>
             {
                 client.BaseAddress = new Uri("http://localhost:7015");

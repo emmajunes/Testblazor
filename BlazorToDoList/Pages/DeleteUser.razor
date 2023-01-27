@@ -2,7 +2,7 @@
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @using ToDoList.API;
-@inject UserService UserService;
+@inject IUserService UserService;
 
 <h3>Delete User</h3>
 
@@ -15,7 +15,6 @@ Do you want to delete your user?
 
 @code {
     private UserItem user = new();
-
 
     public async Task OnSubmit()
     {

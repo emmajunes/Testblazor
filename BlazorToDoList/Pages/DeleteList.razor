@@ -2,7 +2,7 @@
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @using ToDoList.API;
-@inject ListService ListService;
+@inject IListService ListService;
 
 <h3>DeleteList</h3>
 
@@ -13,6 +13,7 @@ Do you want to delete this list?
 
 @code {
     private ToDoListItem listItem = new();
+
     public async Task OnSubmit()
     {
        //behöver jag ändra något för om en admin ska välja?

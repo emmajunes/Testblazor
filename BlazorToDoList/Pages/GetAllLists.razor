@@ -6,7 +6,7 @@
 
 <h3>Listor</h3>
 
-@inject ListService ListService;
+@inject IListService ListService;
 
 <table class="table">
     <tbody>
@@ -24,7 +24,6 @@
 @code {
     private IEnumerable<ToDoListItem> lists = new List<ToDoListItem>();
 
-
     protected override async Task OnInitializedAsync()
     {
         lists = await ListService.GetAllListsAsync();
@@ -35,6 +34,4 @@
         CurrentRecord.Id["ListId"] = listItem.Id.ToString();
         NavigationManager.NavigateTo("/singlelist", true);
     }
-    
-
 }

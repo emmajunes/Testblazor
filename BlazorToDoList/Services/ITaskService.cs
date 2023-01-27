@@ -1,22 +1,24 @@
-﻿using ToDoList.API.Models;
+﻿using BlazorToDoList.Data;
+using ToDoList.API.Models;
 
 namespace BlazorToDoList.Services
 {
     public interface ITaskService
     {
-        //ToDoListDto AddTask(string taskTitle, string taskDescription, Priority taskPrio);
-        //IEnumerable<TaskDto> GetTasks();
-
-        //TaskDto GetSingleTask(Guid taskId);
-
-        //void DeleteTask();
-
-        //TaskDto EditTask(string? title, string? description, Priority? prio);
-
-        //TaskDto ToggleTask(bool completed);
-
+        Task<TaskItem> AddTaskAsync(TaskItem task);
         //void ChangeSortTypeForTask(SortTask sortAlternative);
+        Task<TaskItem> DeleteTaskAsync();
+        Task<TaskItem> EditTaskAsync(TaskItem task);
 
-        //IEnumerable<TaskDto> SortTasks(SortTask sortAlternative);
+        Task<TaskItem> GetSingleTaskAsync(Guid taskId);
+
+        Task<IEnumerable<TaskItem>> GetTasksAsync();
+
+        Task<IEnumerable<TaskItem>> SortTasksAsync(ToDoListItem list);
+        Task<TaskItem> ToggleTaskAsync(TaskItem task);
+
+
+
+
     }
 }

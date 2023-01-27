@@ -1,22 +1,27 @@
-﻿using ToDoList.API.Models;
+﻿using BlazorToDoList.Data;
+using ToDoList.API.Models;
 
 namespace BlazorToDoList.Services
 {
     public interface IUserService
     {
-        //UserDto CreateUser(string username, string email, string password, Access? access);
+        Task<UserItem> Authenticate(UserItem user);
+        Task<UserItem> CreateUserAsync(UserItem user);
 
-        //UserDto GetIndividualUser(Guid id);
+        Task<UserItem> DeleteUserAsync();
 
-        //UserDto EditProfile(Guid id, string? username, string? email, string? passwword);
+        Task<UserItem> EditProfileAsync(UserItem user);
 
-        //IEnumerable<UserDto> GetUsers();
+        Task<UserItem> GetSingleUserAsync();
+        Task<IEnumerable<UserItem>> GetUsersAsync();
 
-        //void DeleteUser(Guid? id);
-        //Task<UserDto> Authenticate(string username, string password);
+        Task<UserItem> ChangeSortType(UserItem user);
 
-        //UserDto PromoteUser(Guid id, Access access);
+        //Task<UserItem> DemoteUserAsync(Guid id, Access access);
 
-        //UserDto DemoteUser(Guid id, Access access);
+        Task<UserItem> PromoteUserAsync(UserItem user);
+
+
+
     }
 }

@@ -2,7 +2,7 @@
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @using ToDoList.API;
-@inject ListService ListService;
+@inject IListService ListService;
 @inject NavigationManager NavigationManager;
 
 <h3>CreateList</h3>
@@ -23,9 +23,9 @@
     </EditForm>
 </div>
 @code {
-
     private ToDoListItem listItem = new();
     private Color color = new();
+
     public async Task OnSubmit()
     {
         var listIten = await ListService.CreateListAsync(listItem);

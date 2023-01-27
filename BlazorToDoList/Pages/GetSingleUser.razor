@@ -3,7 +3,7 @@
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @using ToDoList.API;
-@inject UserService UserService;
+@inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
 <h3>Welcome @currentUser.Username</h3>
@@ -17,7 +17,7 @@ Access:@currentUser.Access
 <br />
 <br/>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/currentuserlists"))" @onclick:preventDefault class="btn btn-primary">View your lists</a>
-<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/edituser"))" @onclick:preventDefault class="btn btn-primary">Edit your profile</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/editprofile"))" @onclick:preventDefault class="btn btn-primary">Edit your profile</a>
 
 
 
@@ -25,11 +25,10 @@ Access:@currentUser.Access
 
     private UserItem currentUser = new();
 
-
     protected override async Task OnInitializedAsync()
     {
         //var userId = CurrentRecord.Id["UserId"];
 
-        currentUser = await UserService.GetIndividualUserAsync(); //funkar men ska jag använda den även när en admin klickar på en user?
+        currentUser = await UserService.GetSingleUserAsync(); //funkar men ska jag använda den även när en admin klickar på en user?
     }
 }
