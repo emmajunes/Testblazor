@@ -3,6 +3,7 @@
 @using BlazorToDoList.Services;
 @using ToDoList.API;
 @inject IUserService UserService;
+@inject NavigationManager NavigationManager;
 
 <h3>Delete User</h3>
 
@@ -11,6 +12,7 @@ Do you want to delete your user?
 <EditForm Model="@user" OnSubmit="@OnSubmit">
     <button type="submit">Delete</button>
 </EditForm>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-primary">No</a>
 
 
 @code {
@@ -18,6 +20,8 @@ Do you want to delete your user?
 
     public async Task OnSubmit()
     {
-        user = await UserService.DeleteUserAsync(); // funkar men kanske behöver snyggas till, hur funkar det med admin?
+        user = await UserService.DeleteUserAsync();
+        NavigationManager.NavigateTo("/singleuser", true);
+        // funkar men kanske behöver snyggas till, hur funkar det med admin?
     }
 }

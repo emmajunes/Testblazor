@@ -18,6 +18,9 @@
     </EditForm>
 </div>
 
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/deleteuser"))" @onclick:preventDefault class="btn btn-primary">Delete your profile</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-primary">Go back</a>
+
 @code {
     private UserItem newUser = new();
 

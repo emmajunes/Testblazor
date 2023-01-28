@@ -20,6 +20,7 @@
 
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/edittask"))" @onclick:preventDefault class="btn btn-primary">Edit task</a>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/deletetask"))" @onclick:preventDefault class="btn btn-primary">Delete task</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-primary">Go back</a>
 @code {
     private TaskItem task = new();
 

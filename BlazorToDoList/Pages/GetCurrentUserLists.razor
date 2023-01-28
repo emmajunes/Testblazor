@@ -3,6 +3,7 @@
 @using BlazorToDoList.Services;
 @using ToDoList.API;
 @inject IListService ListService;
+@inject IUserService UserService;
 @inject NavigationManager NavigationManager
 
 <h3>GetCurrentUserLists</h3>
@@ -16,12 +17,15 @@
                     <td>@list.TitleColor</td>     
                 </tr>
                 <button @onclick="() => GoToList(list)" class="btn btn-secondary align-self-end">Go To List</button>
+            <button @onclick="() => DeleteList(list)" class="btn btn-secondary align-self-end">Delete List</button>
         }
     </tbody>
 </table>
 
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/createlist"))" @onclick:preventDefault class="btn btn-primary">Create new list</a>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/sortlists"))" @onclick:preventDefault class="btn btn-primary">Sortera listor</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-primary">Go back</a>
+
 
 @code {
     private IEnumerable<ToDoListItem> currentUserLists = new List<ToDoListItem>();
@@ -36,4 +40,14 @@
         CurrentRecord.Id["ListId"] = listItem.Id.ToString();
         NavigationManager.NavigateTo("/singlelist", true);
     }
+
+    public void DeleteList(ToDoListItem listItem)
+    {
+        //Sparar ner specifikt listId för den lista man klickat på för att kunna radera från denna nivå också.
+        CurrentRecord.Id["TaskId"] = listItem.Id.ToString();
+        ListService.GetSingleListAsync(listItem.Id);
+        NavigationManager.NavigateTo("/deletelist", true);
+    }
+
+   
 }

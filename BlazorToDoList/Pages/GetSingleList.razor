@@ -4,6 +4,7 @@
 @using ToDoList.API;
 @inject IListService ListService;
 @inject ITaskService TaskService;
+@inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
 <h3>@list.ListTitle</h3>
@@ -18,6 +19,7 @@
                     <td>@task.Completed</td>
                 </tr>
             <button @onclick="() => GoToTask(task)" class="btn btn-secondary align-self-end">Go To Task</button>
+            <button @onclick="() => DeleteTask(task)" class="btn btn-secondary align-self-end">Delete Task</button>
             <button @onclick="() => ToggleTask(task)" class="btn btn-secondary align-self-end">Toggle Task</button>
         }
     </tbody>
@@ -26,10 +28,12 @@
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/editlist"))" @onclick:preventDefault class="btn btn-primary">Edit list</a>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/addtask"))" @onclick:preventDefault class="btn btn-primary">Add new task</a>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/sorttasks"))" @onclick:preventDefault class="btn btn-primary">Sort tasks</a>
+<button @onclick="() => GoBack()" class="btn btn-secondary align-self-end">Go back</button>
 
 @code {
     private ToDoListItem list = new ();
     private IEnumerable<TaskItem> tasks = new List<TaskItem>();
+    private UserItem currentUser = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -50,6 +54,26 @@
         CurrentRecord.Id["TaskId"] = taskItem.Id.ToString();
         TaskService.ToggleTaskAsync(taskItem);
         NavigationManager.NavigateTo("/singlelist", true);
+    }
+
+    public void DeleteTask(TaskItem taskItem)
+    {
+        //Sparar ner specifikt TaskId för den task man klickat på för att kunna radera från denna nivå också.
+        CurrentRecord.Id["TaskId"] = taskItem.Id.ToString();  
+        TaskService.GetSingleTaskAsync(taskItem.Id);
+        NavigationManager.NavigateTo("/deletetask", true);
+    }
+
+    public async Task GoBack()
+    {
+        currentUser = await UserService.GetSingleUserAsync();
+        if (currentUser.Access == Access.Admin)
+        {
+            NavigationManager.NavigateTo("/getalllists", true);
+        }
+        else
+        NavigationManager.NavigateTo("/currentuserlists", true);
+           
     }
 
     //public void DeleteTask(TaskItem taskItem)  // vill jag göra att man ska kunna deleta på denna nivån?

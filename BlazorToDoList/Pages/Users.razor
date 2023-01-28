@@ -21,6 +21,9 @@
     </tbody>
 </table>
 
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/promoteuser"))" @onclick:preventDefault class="btn btn-primary">Promote user</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/admin"))" @onclick:preventDefault class="btn btn-primary">Go back</a>
+
 @code {
     private IEnumerable<UserItem> users = new List<UserItem>();
 
