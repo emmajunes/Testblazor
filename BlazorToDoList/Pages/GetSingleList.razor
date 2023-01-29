@@ -7,17 +7,24 @@
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
-<h3>@list.ListTitle</h3>
+<h3 style="color:@list.TitleColor">@list.ListTitle</h3>
 
 <table class="table">
     <tbody>
         @foreach (var task in tasks)
         {           
-                <tr>
+            @if(task.Completed == true)
+            {
+                checkmark = "line-through";
+            }
+            <tr>
+                <td><button @onclick="() => GoToTask(task)" class="list-button border-0 bg-white"><p style="text-decoration:@checkmark">@task.TaskTitle</p></button></td>
                     <td>@task.TaskTitle</td>     
                     <td>@task.TaskDescription</td>
                     <td>@task.Completed</td>
                 </tr>
+                checkmark = "none";
+
             <button @onclick="() => GoToTask(task)" class="btn btn-secondary align-self-end">Go To Task</button>
             <button @onclick="() => DeleteTask(task)" class="btn btn-secondary align-self-end">Delete Task</button>
             <button @onclick="() => ToggleTask(task)" class="btn btn-secondary align-self-end">Toggle Task</button>
@@ -34,6 +41,7 @@
     private ToDoListItem list = new ();
     private IEnumerable<TaskItem> tasks = new List<TaskItem>();
     private UserItem currentUser = new();
+    public string checkmark { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,18 +57,18 @@
         NavigationManager.NavigateTo("/singletask", true);
     }
 
-    public void ToggleTask(TaskItem taskItem) 
+    public async Task ToggleTask(TaskItem taskItem) 
     {
         CurrentRecord.Id["TaskId"] = taskItem.Id.ToString();
-        TaskService.ToggleTaskAsync(taskItem);
+        await TaskService.ToggleTaskAsync(taskItem);
         NavigationManager.NavigateTo("/singlelist", true);
     }
 
-    public void DeleteTask(TaskItem taskItem)
+    public async Task DeleteTask(TaskItem taskItem)
     {
         //Sparar ner specifikt TaskId för den task man klickat på för att kunna radera från denna nivå också.
         CurrentRecord.Id["TaskId"] = taskItem.Id.ToString();  
-        TaskService.GetSingleTaskAsync(taskItem.Id);
+        await TaskService.GetSingleTaskAsync(taskItem.Id);
         NavigationManager.NavigateTo("/deletetask", true);
     }
 
@@ -75,11 +83,4 @@
         NavigationManager.NavigateTo("/currentuserlists", true);
            
     }
-
-    //public void DeleteTask(TaskItem taskItem)  // vill jag göra att man ska kunna deleta på denna nivån?
-    //{
-    //    CurrentRecord.Id["TaskId"] = taskItem.Id.ToString();
-    //    TaskService.DeleteTaskAsync();
-    //    NavigationManager.NavigateTo("/singlelist", true);
-    //}
 }

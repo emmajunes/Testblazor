@@ -6,18 +6,18 @@
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager
 
-<h3>GetCurrentUserLists</h3>
+<h3>Your lists</h3>
 
 <table class="table">
     <tbody>
         @foreach (var list in currentUserLists)
         {
                 <tr>
-                    <td>@list.ListTitle</td>  
-                    <td>@list.TitleColor</td>     
+                    <td><button @onclick="() => GoToList(list)" class="list-button border-0 bg-white text-uppercase"><p style="color:@list.TitleColor">@list.ListTitle</p></button></td>
+                    <td>@list.TitleColor</td>
                 </tr>
-                <button @onclick="() => GoToList(list)" class="btn btn-secondary align-self-end">Go To List</button>
-            <button @onclick="() => DeleteList(list)" class="btn btn-secondary align-self-end">Delete List</button>
+
+            <button @onclick="() => DeleteList(list)" class="btn btn-secondary align-self-start">Delete List</button>
         }
     </tbody>
 </table>
@@ -29,7 +29,8 @@
 
 @code {
     private IEnumerable<ToDoListItem> currentUserLists = new List<ToDoListItem>();
-
+    private ToDoListItem list = new();
+    
     protected override async Task OnInitializedAsync()
     {
         currentUserLists = await ListService.GetCurrentUserListsAsync();
@@ -47,7 +48,5 @@
         CurrentRecord.Id["TaskId"] = listItem.Id.ToString();
         ListService.GetSingleListAsync(listItem.Id);
         NavigationManager.NavigateTo("/deletelist", true);
-    }
-
-   
+    }  
 }
