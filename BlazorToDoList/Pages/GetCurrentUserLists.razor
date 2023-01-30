@@ -14,17 +14,16 @@
         {
                 <tr>
                     <td><button @onclick="() => GoToList(list)" class="list-button border-0 bg-white text-uppercase"><p style="color:@list.TitleColor">@list.ListTitle</p></button></td>
-                    <td>@list.TitleColor</td>
+                    <td><button @onclick="() => DeleteList(list)" class="btn btn-secondary align-self-start">Delete List</button></td>
                 </tr>
-
-            <button @onclick="() => DeleteList(list)" class="btn btn-secondary align-self-start">Delete List</button>
+            
         }
     </tbody>
 </table>
 
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/createlist"))" @onclick:preventDefault class="btn btn-primary">Create new list</a>
-<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/sortlists"))" @onclick:preventDefault class="btn btn-primary">Sortera listor</a>
-<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-primary">Go back</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/sortlists"))" @onclick:preventDefault class="btn btn-primary">Sort lists</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-secondary">Go back</a>
 
 
 @code {
@@ -33,20 +32,46 @@
     
     protected override async Task OnInitializedAsync()
     {
+        try
+        {
+
         currentUserLists = await ListService.GetCurrentUserListsAsync();
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
     }
 
     public void GoToList(ToDoListItem listItem)
     {
-        CurrentRecord.Id["ListId"] = listItem.Id.ToString();
-        NavigationManager.NavigateTo("/singlelist", true);
+        try
+        {
+            CurrentRecord.Id["ListId"] = listItem.Id.ToString();
+            NavigationManager.NavigateTo("/singlelist", true);
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
     }
 
     public void DeleteList(ToDoListItem listItem)
     {
-        //Sparar ner specifikt listId för den lista man klickat på för att kunna radera från denna nivå också.
-        CurrentRecord.Id["TaskId"] = listItem.Id.ToString();
-        ListService.GetSingleListAsync(listItem.Id);
-        NavigationManager.NavigateTo("/deletelist", true);
+        try
+        {
+            //Sparar ner specifikt listId för den lista man klickat på för att kunna radera från denna nivå också.
+            CurrentRecord.Id["TaskId"] = listItem.Id.ToString();
+            ListService.GetSingleListAsync(listItem.Id);
+            NavigationManager.NavigateTo("/deletelist", true);
+        }
+        catch (Exception)
+        {        
+            throw;
+        }
+        
     }  
 }

@@ -25,6 +25,7 @@
         <br />
         <button type="submit">Submit</button>
     </EditForm>
+    <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-primary">Cancel</a>
 </div>
 
 @code {
@@ -33,7 +34,16 @@
 
     public async Task OnSubmit()
     {
-        taskItem = await TaskService.AddTaskAsync(taskItem);
-        NavigationManager.NavigateTo("/singlelist", true);
+        try
+        {
+            taskItem = await TaskService.AddTaskAsync(taskItem);
+            NavigationManager.NavigateTo("/singlelist", true);
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
     }
 }

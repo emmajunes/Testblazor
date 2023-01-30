@@ -20,8 +20,17 @@ Do you want to delete your user?
 
     public async Task OnSubmit()
     {
-        user = await UserService.DeleteUserAsync();
-        NavigationManager.NavigateTo("/singleuser", true);
-        // funkar men kanske behöver snyggas till, hur funkar det med admin?
+        try
+        {
+            user = await UserService.DeleteUserAsync();
+            NavigationManager.NavigateTo("/singleuser", true);
+            // funkar men kanske behöver snyggas till, hur funkar det med admin?
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
     }
 }

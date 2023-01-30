@@ -5,13 +5,13 @@
 @inject IListService ListService;
 @inject NavigationManager NavigationManager;
 
-<h3>CreateList</h3>
+<h3>Create new list</h3>
 <div>
     <EditForm Model="@listItem" OnSubmit="@OnSubmit">
         Title:
         <InputText id="name" @bind-Value="listItem.ListTitle" />
-        <button type="submit">Submit</button>
-        Priority:
+        <br />
+        Color:
         <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control">
 
             @foreach (var color in Enum.GetValues(typeof(Color)))
@@ -19,7 +19,8 @@
                 <option value="@color">@color</option>
             }
         </InputSelect>
-        
+        <br/>
+        <button type="submit">Submit</button>
     </EditForm>
 </div>
 @code {
@@ -28,7 +29,16 @@
 
     public async Task OnSubmit()
     {
-        var listIten = await ListService.CreateListAsync(listItem);
-        NavigationManager.NavigateTo("/currentuserlists", true);
+        try
+        {
+            var listIten = await ListService.CreateListAsync(listItem);
+            NavigationManager.NavigateTo("/currentuserlists", true);
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
     }
 }

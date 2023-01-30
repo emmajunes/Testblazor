@@ -25,9 +25,8 @@ namespace BlazorToDoList.Services
             var path = "List/CreateList";
             var stringContent = JsonSerializer.Serialize(listItem);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
-            var result = await _httpClientWrapper.PostAsync<ToDoListItem>(path, data);
+            return await _httpClientWrapper.PostAsync<ToDoListItem>(path, data);
 
-            return result;
         }
 
         public async Task<ToDoListItem> DeleteListAsync()
@@ -65,10 +64,7 @@ namespace BlazorToDoList.Services
             var path = "List/EditList";
             var stringContent = JsonSerializer.Serialize(listItem);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
-            var result = await _httpClientWrapper.PutAsync<ToDoListItem>(path, data);
-
-            return result;
-            
+            return await _httpClientWrapper.PutAsync<ToDoListItem>(path, data);       
 
         }
         public async Task<ToDoListItem> EditTitleColorAsync(ToDoListItem listItem)
@@ -77,11 +73,8 @@ namespace BlazorToDoList.Services
             var path = "List/EditTitleColor";
             var stringContent = JsonSerializer.Serialize(listItem);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
-            var result = await _httpClientWrapper.PutAsync<ToDoListItem>(path, data);
-
-            return result;
+            return await _httpClientWrapper.PutAsync<ToDoListItem>(path, data);
         }
-
 
         public async Task<IEnumerable<ToDoListItem>> SortListsAsync(UserItem user)
         {

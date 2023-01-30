@@ -13,7 +13,6 @@
             <tr>
                 <td>@task.TaskTitle</td>
                 <td>@task.TaskDescription</td>
-                <td>@task.Completed</td>
             </tr>
     </tbody>
 </table>
@@ -26,8 +25,16 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var taskId = CurrentRecord.Id["TaskId"];
-
-        task = await TaskService.GetSingleTaskAsync(Guid.Parse(taskId));
+        try
+        {
+            var taskId = CurrentRecord.Id["TaskId"];
+            task = await TaskService.GetSingleTaskAsync(Guid.Parse(taskId));
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
     }
 }

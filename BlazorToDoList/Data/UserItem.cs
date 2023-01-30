@@ -25,7 +25,7 @@ namespace BlazorToDoList.Data
         public string Email { get; set; }
 
         [JsonPropertyName("password")]
-        [MinLength(8, ErrorMessage ="Must be atleast 8 characters.")]
+        [RegularExpression("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^\\da-zA-Z])(.{10,})$", ErrorMessage = "Password must be atleast 10 characters, one uppercase, one lowercase, one number, and one special")]
         [Required]
         public string Password { get; set; }
 

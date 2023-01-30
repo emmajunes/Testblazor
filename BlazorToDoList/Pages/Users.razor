@@ -5,7 +5,7 @@
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
-<h3>Användare</h3>
+<h3>Users</h3>
 
 <table class="table">
     <tbody>
@@ -15,8 +15,10 @@
                     <td>@user.Username</td>     
                     <td>@user.Email</td>
                     <td>@user.Access</td>
-                </tr>
-            <button @onclick="() => GoToUser(user)" class="btn btn-secondary align-self-end">Go To User</button>
+            </tr>
+           
+            <button @onclick="() => PromoteUser(user)" class="btn btn-secondary align-self-end">Promote User</button>
+            <button @onclick="() => DemoteUser(user)" class="btn btn-secondary align-self-end">Demote User</button>
         }
     </tbody>
 </table>
@@ -26,15 +28,60 @@
 
 @code {
     private IEnumerable<UserItem> users = new List<UserItem>();
+    public bool show { get; set; } = true;
 
 
     protected override async Task OnInitializedAsync()
     {
-        users = await UserService.GetUsersAsync();
+        try
+        {
+            users = await UserService.GetUsersAsync();
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
-    public void GoToUser(UserItem user)
+    //public void GoToUser(UserItem user)
+    //{
+    //    try
+    //    {
+    //        NavigationManager.NavigateTo("/singleuser", true); funkar men ingen säkerhet att bara admin får se
+    //    }
+    //    catch (Exception)
+    //    {
+    //        throw;
+    //    }
+
+    //}
+    public async Task PromoteUser(UserItem user)
     {
-        CurrentRecord.Id["UserIdAdmin"] = user.Id.ToString();
-        NavigationManager.NavigateTo("/singleuser", true); //funkar men ingen säkerhet att bara admin får se
+        try
+        {
+            await UserService.PromoteUserAsync(user);
+            NavigationManager.NavigateTo("/users", true);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
     }
+    public async Task DemoteUser(UserItem user)
+    {
+        try
+        {
+            await UserService.DemoteUserAsync(user);
+            NavigationManager.NavigateTo("/users", true);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
+    }
+
+
 }

@@ -9,23 +9,33 @@
 
 <h3>LogIn</h3>
 <div>
+    <p class="text-danger">@errorMessage</p>
 <EditForm Model="@user" OnSubmit="@OnSubmit">
-    Username:
+    Username: <br />
     <InputText id="username" @bind-Value="user.Username" />
-    Password:
+    <br /><br />
+    Password: <br />
         <InputText type="password" id="password" @bind-Value="user.Password" />
+        <br /><br />
     <button type="submit">Submit</button>
 </EditForm>
-@user.Email
 </div>
 
 @code {
     private UserItem user = new();
+    public string errorMessage { get; set; } = "";
 
     public async Task OnSubmit()
     {
-        user = await UserService.Authenticate(user);
-        //CurrentRecord.Id["UserId"] = user.Id.ToString();
-        NavigationManager.NavigateTo("/singleuser", true);
+        try
+        {
+            user = await UserService.Authenticate(user);
+            NavigationManager.NavigateTo("/singleuser", true);
+        }
+        catch (Exception)
+        {
+            errorMessage = "Invalid username or password";
+        }
+        
     }
 }

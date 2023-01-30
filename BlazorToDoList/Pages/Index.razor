@@ -1,5 +1,7 @@
 ﻿@page "/"
-
+@using BlazorToDoList.Data;
+@using BlazorToDoList.Services;
+@inject IUserService UserService;
 @inject NavigationManager NavigationManager
 
 
@@ -7,9 +9,35 @@
 <PageTitle>Index</PageTitle>
 
 
-<h1>To Do List</h1>
 
+@if (currentUser == null)
+{
+<h1>To Do List</h1>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/login"))" @onclick:preventDefault class="btn btn-primary">Login</a>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/createuser"))" @onclick:preventDefault class="btn btn-primary">Sign Up</a>
+    
+}
+else
+{
+    <GetSingleUser></GetSingleUser>
+
+}
+
+@code {
+    //kolla om detta ska vara kvar!?
+    public UserItem? currentUser { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            currentUser = await UserService.GetSingleUserAsync();
+        }
+        catch (Exception)
+        {
+            currentUser = null;
+        }
+    }
+}
 
 

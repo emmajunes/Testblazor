@@ -27,8 +27,16 @@ Access:@currentUser.Access
 
     protected override async Task OnInitializedAsync()
     {
-        //var userId = CurrentRecord.Id["UserId"];
-
+        try
+        {
+            //var userId = CurrentRecord.Id["UserId"];
         currentUser = await UserService.GetSingleUserAsync(); //funkar men ska jag använda den även när en admin klickar på en user?
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
     }
 }

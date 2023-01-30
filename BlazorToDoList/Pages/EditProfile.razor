@@ -4,17 +4,20 @@
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
-<h3>EditUser</h3>
+<h3>Edit profile</h3>
 
 <div>
-    <EditForm Model="@newUser" OnSubmit="@OnSubmit">
-        Username:
-        <InputText id="name" @bind-Value="newUser.Username" />
-        Password:
-        <InputText id="name" @bind-Value="newUser.Password" />
-        Email:
-        <InputText id="name" @bind-Value="newUser.Email" />
-        <button type="submit">Submit</button>
+    <EditForm Model="@user" OnSubmit="@OnSubmit">
+        Username: <br />
+        <InputText id="name" @bind-Value="user.Username" />
+        <br /><br />
+        Password: <br />
+        <InputText type="password" id="password" @bind-Value="user.Password" />
+        <br /><br />
+        Email:<br />
+        <InputText id="email" @bind-Value="user.Email" />
+        <br /><br />
+        <button class="mb-5"type="submit">Update</button>
     </EditForm>
 </div>
 
@@ -22,11 +25,25 @@
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-primary">Go back</a>
 
 @code {
-    private UserItem newUser = new();
+    private UserItem user = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await UserService.GetSingleUserAsync();
+    }
 
     public async Task OnSubmit()
     {
-        newUser = await UserService.EditProfileAsync(newUser);
-        NavigationManager.NavigateTo("/singleuser", true); //Funkar någorlunda men hur funkar det med admin?
+        try
+        {
+            user = await UserService.EditProfileAsync(user);
+            NavigationManager.NavigateTo("/singleuser", true); //Funkar någorlunda men hur funkar det med admin?
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
     }
 }

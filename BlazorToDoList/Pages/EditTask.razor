@@ -19,7 +19,7 @@
                     <option value="@prio">@prio</option>
             }
         </InputSelect>
-        <button type="submit">Submit</button>
+        <button type="submit">Updatera</button>
     </EditForm>
 </div>
 
@@ -28,7 +28,16 @@
 
     public async Task OnSubmit()
     {
-        taskItem = await TaskService.EditTaskAsync(taskItem);
-        NavigationManager.NavigateTo("/singlelist", true);
+        try
+        {
+            taskItem = await TaskService.EditTaskAsync(taskItem);
+            NavigationManager.NavigateTo("/singlelist", true);
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
     }
 }

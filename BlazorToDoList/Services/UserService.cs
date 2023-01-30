@@ -26,9 +26,7 @@ namespace BlazorToDoList.Services
             var path = "User/Login";
             var stringContent = JsonSerializer.Serialize(user);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
-            var response = await _httpClientWrapper.PostAsync<UserItem>(path, data);
-            
-            return response;
+            return await _httpClientWrapper.PostAsync<UserItem>(path, data);
         }
 
 
@@ -37,18 +35,14 @@ namespace BlazorToDoList.Services
             var path = "User/CreateUser";
             var stringContent = JsonSerializer.Serialize(user);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
-            var result = await _httpClientWrapper.PostAsync<UserItem>(path, data);
-
-            return result;
+            return await _httpClientWrapper.PostAsync<UserItem>(path, data);
 
         }
 
         public async Task<UserItem> DeleteUserAsync()
         {
             var path = "User/DeleteUser";
-            var result = await _httpClientWrapper.DeleteAsync<UserItem>(path);
-            return result;
-
+             return await _httpClientWrapper.DeleteAsync<UserItem>(path);
         }
 
         public async Task<UserItem> EditProfileAsync(UserItem user)
@@ -56,33 +50,28 @@ namespace BlazorToDoList.Services
             var path = "User/EditProfile";
             var stringContent = JsonSerializer.Serialize(user);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
-            var result = await _httpClientWrapper.PutAsync<UserItem>(path, data);
-
-            return result;
+            return await _httpClientWrapper.PutAsync<UserItem>(path, data);
         }
 
         public async Task<UserItem> GetSingleUserAsync()
         {
             var path = "User/GetSingleUser";
-            //var stringContent = JsonSerializer.Serialize(id);
-            //var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
             return await _httpClientWrapper.GetAsync<UserItem>(path);
         }
 
         public async Task<IEnumerable<UserItem>> GetUsersAsync()
         {
             var path = "User/GetAllUsers";
-            var result = await _httpClientWrapper.GetAsync<IEnumerable<UserItem>>(path);
-
-            return result;
-
+            return await _httpClientWrapper.GetAsync<IEnumerable<UserItem>>(path);
         }
 
-        //public async Task<UserItem> DemoteUserAsync(Guid id, Access access)
-        //{
-        //    var path = "User/DemoteUser";
-        //    throw new NotImplementedException();
-        //}
+        public async Task<UserItem> DemoteUserAsync(UserItem user)
+        {
+            var path = "User/DemoteUser";
+            var stringContent = JsonSerializer.Serialize(user);
+            var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
+            return await _httpClientWrapper.PutAsync<UserItem>(path, data);
+        }
 
         public async Task<UserItem> PromoteUserAsync(UserItem user) //ändrat från guid och access
         {

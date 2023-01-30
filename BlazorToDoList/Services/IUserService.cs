@@ -17,7 +17,7 @@ namespace BlazorToDoList.Services
 
         Task<UserItem> ChangeSortType(UserItem user);
 
-        //Task<UserItem> DemoteUserAsync(Guid id, Access access);
+        Task<UserItem> DemoteUserAsync(UserItem user);
 
         Task<UserItem> PromoteUserAsync(UserItem user);
 

@@ -13,12 +13,12 @@
         @foreach (var list in lists)
         {
             <tr>
-                <td>@list.ListTitle</td>  
-                <td>@list.TitleColor</td>     
+                <td><p style="color:@list.TitleColor">@list.ListTitle</p></td>
             </tr>
             <button @onclick="() => GoToList(list)" class="btn btn-secondary align-self-end">Go To List</button>
         }
     </tbody>
+    <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/admin"))" @onclick:preventDefault class="btn btn-primary">Go back</a>
 </table>
 
 @code {
@@ -26,12 +26,30 @@
 
     protected override async Task OnInitializedAsync()
     {
+        try
+        {
+
         lists = await ListService.GetAllListsAsync();
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
     }
 
     public void GoToList(ToDoListItem listItem)
     {
-        CurrentRecord.Id["ListId"] = listItem.Id.ToString();
-        NavigationManager.NavigateTo("/singlelist", true);
+        try
+        {
+            CurrentRecord.Id["ListId"] = listItem.Id.ToString();
+            NavigationManager.NavigateTo("/singlelist", true);
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
     }
 }

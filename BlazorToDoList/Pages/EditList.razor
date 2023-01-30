@@ -1,35 +1,54 @@
 ﻿@page "/EditList"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
+@using ToDoList.API;
 @inject IListService ListService;
 @inject NavigationManager NavigationManager;
 
-<h3>EditList</h3>
-
+<h3>Edit list</h3>
 
 <div>
     <EditForm Model="@listItem" OnSubmit="@OnSubmit">
-        New title:
-        <InputText id="name" @bind-Value="listItem.ListTitle" />
-        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control">
-            New titlecolor:
+        New title: <br />
+        <InputText id="title" @bind-Value="listItem.ListTitle" />
+        <br /><br />
+        New titlecolor:
+        <br />
+        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control">  
             @foreach (var color in Enum.GetValues(typeof(Color)))
             {
                     <option value="@color">@color</option>
             }
         </InputSelect>
-        <button type="submit">Submit</button>
+        <br />
+        <button type="submit">Submit</button> <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-primary">Cancel</a>
     </EditForm>
+    
 </div>
 
 @code {
     private ToDoListItem listItem = new();
     //private Color color = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        var listId = CurrentRecord.Id["ListId"];
+        listItem = await ListService.GetSingleListAsync(Guid.Parse(listId));
+    }
+
     public async Task OnSubmit()
     {
-        await ListService.EditListAsync(listItem);
-        await ListService.EditTitleColorAsync(listItem);
-        NavigationManager.NavigateTo("/singlelist", true);
+        try
+        {
+            await ListService.EditListAsync(listItem);
+            await ListService.EditTitleColorAsync(listItem);
+            NavigationManager.NavigateTo("/singlelist", true);
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
     }
 }

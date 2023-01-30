@@ -10,8 +10,8 @@
 How do you want to sort?
 <br /><br />
 <div>
-    <EditForm Model="@_list" OnSubmit="@Update">
-        <InputSelect id="sort" @bind-Value="_list.Sortby" class="form-control">
+    <EditForm Model="@list" OnSubmit="@Update">
+        <InputSelect id="sort" @bind-Value="list.Sortby" class="form-control">
 
             @foreach (var sort in Enum.GetValues(typeof(SortTask)))
             {
@@ -20,22 +20,41 @@ How do you want to sort?
         </InputSelect>
         <button type="submit">Update</button>
     </EditForm>
+    <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-primary">Avbryt</a>
 </div>
 
 @code {
-    private SortTask _sortBy = new();
-    private TaskItem _task = new();
-    private ToDoListItem _list = new ();
+    private SortTask sortBy = new();
+    private TaskItem task = new();
+    private ToDoListItem list = new ();
     private IEnumerable<TaskItem> tasks = new List<TaskItem>();
 
     protected override async Task OnInitializedAsync()
     {
+        try
+        {
         tasks = await TaskService.GetTasksAsync();
+
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
     }
 
     public async Task Update()
     {
-        await TaskService.SortTasksAsync(_list); //funkar ej
-        NavigationManager.NavigateTo("/singlelist", true);
+        try
+        {
+            await TaskService.SortTasksAsync(list); //funkar ej
+            NavigationManager.NavigateTo("/singlelist", true);
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
     }
 }

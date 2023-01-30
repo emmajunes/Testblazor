@@ -11,8 +11,8 @@
 How do you want to sort?
 <br /><br />
 <div>
-    <EditForm Model="@_user" OnSubmit="@Update">
-        <InputSelect id="sort" @bind-Value="_user.SortBy" class="form-control">
+    <EditForm Model="@user" OnSubmit="@Update">
+        <InputSelect id="sort" @bind-Value="user.SortBy" class="form-control">
 
             @foreach (var sort in Enum.GetValues(typeof(SortList)))
             {
@@ -24,21 +24,39 @@ How do you want to sort?
 </div>
 
 @code {
-    private SortList _sortBy = new();
-    private UserItem _user = new();
+    private SortList sortBy = new();
+    private UserItem user = new();
     private IEnumerable<ToDoListItem> lists = new List<ToDoListItem>();
 
     protected override async Task OnInitializedAsync()
     {
-        _user = await UserService.GetSingleUserAsync();
-        lists = await ListService.GetCurrentUserListsAsync();
+        try
+        {
+            user = await UserService.GetSingleUserAsync();
+            lists = await ListService.GetCurrentUserListsAsync();
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
 
     }
 
     public async Task Update()
     {
-        lists = await ListService.SortListsAsync(_user); //funkar ej
-        NavigationManager.NavigateTo("/currentuserlists", true);
+        try
+        {
+            lists = await ListService.SortListsAsync(user); //funkar ej
+            NavigationManager.NavigateTo("/currentuserlists", true);
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+        
     }
 
 }

@@ -7,7 +7,7 @@
     </div>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+<div hidden="@hide" class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -15,13 +15,18 @@
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="users">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Users
+            <NavLink class="nav-link" href="currentuserlists">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> My lists
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="getalllists">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Lists
+            <NavLink class="nav-link" href="createlist">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Create list
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="editprofile">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Edit profile
             </NavLink>
         </div>
         <div class="nav-item px-3">
@@ -36,6 +41,9 @@
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    [Parameter]
+    public bool hide { get; set; } = true;
 
     private void ToggleNavMenu()
     {

@@ -55,9 +55,7 @@ namespace BlazorToDoList.Services
         public async Task<IEnumerable<TaskItem>> GetTasksAsync()
         {
             var path = "Task/GetAllTasks";
-            var result = await _httpClientWrapper.GetAsync<IEnumerable<TaskItem>>(path);
-
-            return result;
+            return await _httpClientWrapper.GetAsync<IEnumerable<TaskItem>>(path);
         }
         public async Task<IEnumerable<TaskItem>> SortTasksAsync(ToDoListItem listItem)
         {
