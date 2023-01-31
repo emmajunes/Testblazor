@@ -2,6 +2,7 @@
 @using BlazorToDoList.Services;
 @inherits LayoutComponentBase
 @inject IUserService UserService;
+@inject NavigationManager NavigationManager;
 
 <PageTitle>BlazorToDoList</PageTitle>
 
@@ -9,10 +10,12 @@
     <div class="sidebar">
         <NavMenu hide="@hide" currentUser="@currentUser"  />
     </div>
-
     <main>
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            @if(currentUser != null)
+            {
+            <button @onclick="() => LogOut()" class="btn btn-primary">Log Out</button>         
+            }
         </div>
 
         <article class="content px-4">
@@ -22,7 +25,6 @@
 </div>
 
 @code{
-
     public UserItem? currentUser { get; set; }
     public bool hide { get; set; } = true;
 
@@ -32,10 +34,25 @@
         {
             currentUser = await UserService.GetSingleUserAsync();
             hide = false;
+           
         }
         catch (Exception)
         {
             currentUser = null;
         }
+    }
+
+    public async Task LogOut()
+    {
+        try
+        {
+            await UserService.Logout();
+            NavigationManager.NavigateTo("/", true);
+        }
+        catch (Exception)
+        {   
+            throw;
+        }
+        
     }
 }

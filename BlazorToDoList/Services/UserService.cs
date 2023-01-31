@@ -29,6 +29,11 @@ namespace BlazorToDoList.Services
             return await _httpClientWrapper.PostAsync<UserItem>(path, data);
         }
 
+        public async Task<UserItem> Logout()
+        {
+            var path = "User/LogOut";
+            return await _httpClientWrapper.GetAsync<UserItem>(path);
+        }
 
         public async Task<UserItem> CreateUserAsync(UserItem user)
         {

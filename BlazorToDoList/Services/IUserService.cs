@@ -6,6 +6,7 @@ namespace BlazorToDoList.Services
     public interface IUserService
     {
         Task<UserItem> Authenticate(UserItem user);
+        Task<UserItem> Logout();
         Task<UserItem> CreateUserAsync(UserItem user);
 
         Task<UserItem> DeleteUserAsync();
