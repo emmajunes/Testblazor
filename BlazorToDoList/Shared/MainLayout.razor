@@ -7,15 +7,7 @@
 
 <div class="page">
     <div class="sidebar">
-        @if(currentUser == null)
-        {
-        <NavMenu hide="true"  />
-        }
-        else
-        {
-        <NavMenu hide="false"  /> 
-            
-        }
+        <NavMenu hide="@hide" currentUser="@currentUser"  />
     </div>
 
     <main>
@@ -31,13 +23,15 @@
 
 @code{
 
-    public UserItem? currentUser { get; set; } 
+    public UserItem? currentUser { get; set; }
+    public bool hide { get; set; } = true;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             currentUser = await UserService.GetSingleUserAsync();
+            hide = false;
         }
         catch (Exception)
         {

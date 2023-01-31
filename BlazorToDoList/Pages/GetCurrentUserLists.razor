@@ -38,8 +38,7 @@
         currentUserLists = await ListService.GetCurrentUserListsAsync();
         }
         catch (Exception)
-        {
-            
+        {          
             throw;
         }
     }
@@ -52,8 +51,7 @@
             NavigationManager.NavigateTo("/singlelist", true);
         }
         catch (Exception)
-        {
-            
+        {    
             throw;
         }
         
