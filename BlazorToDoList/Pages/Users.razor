@@ -11,6 +11,7 @@
             <td>Username:</td>
             <td>Email:</td>
             <td>Access:</td>
+            <td></td>
         </tr>
         @foreach (var user in users)
         {
@@ -18,12 +19,15 @@
                      <td>@user.Username</td>     
                      <td>@user.Email</td>
                      <td>@user.Access</td>
+                     <td>
+                
             @if(user.Access < currentUser.Access)
             {   
                     <button @onclick="() => PromoteUser(user)" class="btn btn-secondary align-self-end">Promote</button>
-                    <button @onclick="() => DemoteUser(user)" class="btn btn-secondary align-self-end">Demote</button>      
+                    <button @onclick="() => DemoteUser(user)" class="btn btn-secondary align-self-end">Demote</button>
             }  
-                </tr>   
+                </td>
+                </tr>    
         }
     </tbody>
 </table>
@@ -43,21 +47,10 @@
         }
         catch (Exception)
         {
-            throw;
+            return;
         }
     }
-    //public void GoToUser(UserItem user)
-    //{
-    //    try
-    //    {
-    //        NavigationManager.NavigateTo("/singleuser", true); funkar men ingen säkerhet att bara admin får se
-    //    }
-    //    catch (Exception)
-    //    {
-    //        throw;
-    //    }
 
-    //}
     public async Task PromoteUser(UserItem user)
     {
         try
@@ -67,7 +60,7 @@
         }
         catch (Exception)
         {
-            throw;
+            return;
         }
 
     }
@@ -80,8 +73,7 @@
         }
         catch (Exception)
         {
-            throw;
+            return;
         }
-
     }
 }

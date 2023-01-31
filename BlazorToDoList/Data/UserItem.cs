@@ -38,7 +38,5 @@ namespace BlazorToDoList.Data
         [JsonPropertyName("toDoList")]
         public ICollection<ToDoListItem> ToDoList { get; set; }
 
-        
-
     }
 }

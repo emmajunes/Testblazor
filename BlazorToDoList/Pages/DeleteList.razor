@@ -5,13 +5,13 @@
 @inject IListService ListService;
 @inject NavigationManager NavigationManager;
 
-<h3>DeleteList</h3>
 
-Do you want to delete this list?
+<h3>Do you want to delete this list?</h3>
+<br />
 <EditForm Model="@listItem" OnSubmit="@OnSubmit">
-    <button type="submit">Yes</button>
+    <button class="btn btn-danger" type="submit">Delete</button>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/currentuserlists"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
 </EditForm>
-<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/currentuserlists"))" @onclick:preventDefault class="btn btn-primary">No</a>
 
 @code {
     private ToDoListItem listItem = new();
@@ -20,14 +20,12 @@ Do you want to delete this list?
     {
         try
         {
-            //behöver jag ändra något för om en admin ska välja?
-        listItem = await ListService.DeleteListAsync();
-        NavigationManager.NavigateTo("/currentuserlists", true);   
+            listItem = await ListService.DeleteListAsync();
+            NavigationManager.NavigateTo("/currentuserlists", true);   
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
         
     }

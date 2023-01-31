@@ -16,9 +16,5 @@ namespace BlazorToDoList.Services
 
         Task<IEnumerable<TaskItem>> SortTasksAsync(ToDoListItem list);
         Task<TaskItem> ToggleTaskAsync(TaskItem task);
-
-
-
-
     }
 }

@@ -17,12 +17,12 @@
         Email:<br />
         <InputText id="email" @bind-Value="user.Email" />
         <br /><br />
-        <button class="mb-5"type="submit">Update</button>
+        <button class="mb-5 btn btn-primary"type="submit">Update</button>
     </EditForm>
 </div>
 
-<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/deleteuser"))" @onclick:preventDefault class="btn btn-primary">Delete your profile</a>
-<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-primary">Go back</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/deleteuser"))" @onclick:preventDefault class="btn btn-danger">Delete your profile</a>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-secondary">Go back</a>
 
 @code {
     private UserItem user = new();
@@ -41,8 +41,7 @@
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
         
     }

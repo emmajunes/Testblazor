@@ -1,31 +1,41 @@
 ﻿@page "/edittask"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
+@using ToDoList.API;
 @inject ITaskService TaskService;
 @inject NavigationManager NavigationManager;
 
-<h3>EditTask</h3>
+<h3>Edit Task</h3>
 
 <div>
     <EditForm Model="@taskItem" OnSubmit="@OnSubmit">
-        New title:
+        New title: <br />
         <InputText id="name" @bind-Value="taskItem.TaskTitle" />
-        New description:
+        <br /><br />
+        New description: <br />
         <InputText id="description" @bind-Value="taskItem.TaskDescription" /> 
-        New priority:
-        <InputSelect id="prio" @bind-Value="taskItem.TaskPrio" class="form-control">    
+        <br /> <br />
+        New priority: <br />
+        <InputSelect id="prio" @bind-Value="taskItem.TaskPrio" class="form-control w-25">    
             @foreach (var prio in Enum.GetValues(typeof(Priority)))
             {
                     <option value="@prio">@prio</option>
             }
         </InputSelect>
-        <button type="submit">Updatera</button>
+        <br /><br />
+        <button class="btn btn primary" type="submit">Updatera</button>
+        <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singletask"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
     </EditForm>
 </div>
 
 @code {
     private TaskItem taskItem = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        var taskId = CurrentRecord.Id["TaskId"];
+        taskItem = await TaskService.GetSingleTaskAsync(Guid.Parse(taskId));
+    }
     public async Task OnSubmit()
     {
         try
@@ -35,8 +45,7 @@
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
         
     }

@@ -19,7 +19,6 @@ namespace BlazorToDoList.Services
         {
             var response = await httpClient.GetAsync(_baseUrl + path);
             response.EnsureSuccessStatusCode();
-
             var responseContent = await response.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<T>(responseContent);
         }
@@ -28,7 +27,6 @@ namespace BlazorToDoList.Services
         {
             var response = await httpClient.PutAsync(_baseUrl + path, content);
             response.EnsureSuccessStatusCode();
-
             using var responseContent = await response.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<T>(responseContent);
         }
@@ -37,7 +35,6 @@ namespace BlazorToDoList.Services
         {
             var response = await httpClient.PostAsync(_baseUrl + path, content);
             response.EnsureSuccessStatusCode();
-
             using var responseContent = response.Content.ReadAsStreamAsync().Result;
             return await JsonSerializer.DeserializeAsync<T>(responseContent);
         }
@@ -46,7 +43,6 @@ namespace BlazorToDoList.Services
         {
             var response = await httpClient.DeleteAsync(_baseUrl + path);
             response.EnsureSuccessStatusCode();
-
             using var responseContent = await response.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<T>(responseContent);
         }

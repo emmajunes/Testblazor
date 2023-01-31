@@ -16,10 +16,5 @@ namespace BlazorToDoList.Services
         Task<ToDoListItem> EditTitleColorAsync(ToDoListItem listItem);
         Task<IEnumerable<ToDoListItem>> SortListsAsync(UserItem user);
 
-
-
-
-
-
     }
 }

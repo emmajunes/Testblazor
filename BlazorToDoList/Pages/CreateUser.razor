@@ -23,27 +23,43 @@
         <InputText id="email" @bind-Value="newUser.Email" />
         <ValidationMessage For="@(() => newUser.Email)" />
         <br /><br />
-        <button type="submit">Submit</button>
+        <button class="btn btn-primary"type="submit">Create</button>
     </EditForm>
 </div>
 
 @code {
     private UserItem newUser = new();
+    private UserItem? CurrentUser { get; set; }
     public string errorMessage { get; set; } = "";
 
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            CurrentUser = await UserService.GetSingleUserAsync();
+        }
+        catch (Exception)
+        {
+            CurrentUser = null;
+        }
+    }
     public async Task OnSubmit()
     {
         try
         {
             newUser = await UserService.CreateUserAsync(newUser);
+            if(CurrentUser == null)
+            {
+                NavigationManager.NavigateTo("/login", true);              
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/usersettings", true);
+            }
 
-            //ändra för om en admin skapar en user så att man inte skickas till login
-            //lägg till funktion som meddelar användaren att den skapat sitt konto och kan logga in?
-            NavigationManager.NavigateTo("/login", true);
         }
         catch (Exception)
         {
-
             errorMessage = "User already exists!";
         }
         

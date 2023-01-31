@@ -19,7 +19,8 @@
             }
             <tr>
                 <td><button @onclick="() => GoToTask(task)" class="list-button border-0 bg-white"><p style="text-decoration:@checkmark"> @task.TaskTitle.ToUpper() <br> - @task.TaskDescription</p></button></td>
-                <td><button @onclick="() => ToggleTask(task)" class="btn btn-secondary align-self-end">Toggle Task</button><button @onclick="() => DeleteTask(task)" class="btn btn-secondary align-self-end">Delete Task</button></td>
+                <td> <button @onclick="() => ToggleTask(task)" class="btn btn-primary">Toggle Task</button></td>               
+                <td><button @onclick="() => DeleteTask(task)" class="btn btn-danger">Delete Task</button></td>
             </tr>
                 checkmark = "none";      
         }
@@ -28,7 +29,6 @@
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/editlist"))" @onclick:preventDefault class="btn btn-primary">Edit list</a>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/addtask"))" @onclick:preventDefault class="btn btn-primary">Add new task</a>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/sorttasks"))" @onclick:preventDefault class="btn btn-primary">Sort tasks</a>
-<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/deletelist"))" @onclick:preventDefault class="btn btn-primary">Delete this list</a>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/currentuserlists"))" @onclick:preventDefault class="btn btn-secondary">Go back</a>
 
 
@@ -36,7 +36,7 @@
     private ToDoListItem list = new ();
     private IEnumerable<TaskItem> tasks = new List<TaskItem>();
     private UserItem currentUser = new();
-    public string checkmark { get; set; }
+    public string checkmark;
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,10 +49,8 @@
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
-        
     }
 
     public void GoToTask(TaskItem taskItem)
@@ -64,10 +62,8 @@
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
-        
     }
 
     public async Task ToggleTask(TaskItem taskItem) 
@@ -80,10 +76,8 @@
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
-        
     }
 
     public async Task DeleteTask(TaskItem taskItem)
@@ -97,29 +91,7 @@
         }
         catch (Exception)
         {
-            
-            throw;
-        }
-        
+            return;
+        }      
     }
-
-    //public async Task GoBack()
-    //{
-    //    try
-    //    {
-    //        currentUser = await UserService.GetSingleUserAsync();
-    //        if (currentUser.Access == Access.Admin)
-    //        {
-    //            NavigationManager.NavigateTo("/getalllists", true);
-    //        }
-    //        else
-    //            NavigationManager.NavigateTo("/currentuserlists", true);
-    //    }
-    //    catch (Exception)
-    //    {   
-    //        throw;
-    //    }
-        
-           
-    //}
 }

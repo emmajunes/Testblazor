@@ -12,35 +12,36 @@ How do you want to sort?
 <br /><br />
 <div>
     <EditForm Model="@user" OnSubmit="@Update">
-        <InputSelect id="sort" @bind-Value="user.SortBy" class="form-control">
+        <InputSelect id="sort" @bind-Value="user.SortBy" class="form-control w-25">
 
             @foreach (var sort in Enum.GetValues(typeof(SortList)))
             {
                 <option @onclick="@Update" value="@sort">@sort</option>
             }
         </InputSelect>
-        <button type="submit">Update</button>
+        <br /><br />
+        <button class="btn btn-primary" type="submit">Update</button>
+        <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/currentuserlists"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
     </EditForm>
 </div>
 
 @code {
-    private SortList sortBy = new();
+    //private SortList sortBy = new();
     private UserItem user = new();
-    private IEnumerable<ToDoListItem> lists = new List<ToDoListItem>();
+    //private IEnumerable<ToDoListItem> lists = new List<ToDoListItem>();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             user = await UserService.GetSingleUserAsync();
-            lists = await ListService.GetCurrentUserListsAsync();
+            //lists = await ListService.GetCurrentUserListsAsync();
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
-        
+
 
     }
 
@@ -48,13 +49,12 @@ How do you want to sort?
     {
         try
         {
-            lists = await ListService.SortListsAsync(user); //funkar ej
+            await ListService.SortListsAsync(user);
             NavigationManager.NavigateTo("/currentuserlists", true);
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
         
     }

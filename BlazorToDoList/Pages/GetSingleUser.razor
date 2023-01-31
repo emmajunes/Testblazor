@@ -30,12 +30,11 @@ Access:@currentUser.Access
         try
         {
             //var userId = CurrentRecord.Id["UserId"];
-        currentUser = await UserService.GetSingleUserAsync(); //funkar men ska jag använda den även när en admin klickar på en user?
+            currentUser = await UserService.GetSingleUserAsync(); //funkar men ska jag använda den även när en admin klickar på en user?
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
         
     }

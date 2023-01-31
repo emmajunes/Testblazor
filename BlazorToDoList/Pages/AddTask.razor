@@ -8,14 +8,14 @@
 <br />
 <div>
     <EditForm Model="@taskItem" OnSubmit="@OnSubmit">
-        Title:
+        Title: <br />
         <InputText id="title" @bind-Value="taskItem.TaskTitle" />
         <br />
-        Description:
+        Description: <br />
         <InputText id="description" @bind-Value="taskItem.TaskDescription" />
         <br />
-        Priority:
-        <InputSelect id="prio" @bind-Value="taskItem.TaskPrio" class="form-control">
+        Priority: <br />
+        <InputSelect id="prio" @bind-Value="taskItem.TaskPrio" class="form-control w-25">
 
             @foreach (var prio in Enum.GetValues(typeof(Priority)))
             {
@@ -23,14 +23,13 @@
             }
         </InputSelect>
         <br />
-        <button type="submit">Submit</button>
-    </EditForm>
-    <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-primary">Cancel</a>
+        <button class="btn btn-primary"type="submit">Submit</button>
+        <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
+    </EditForm>   
 </div>
 
 @code {
     private TaskItem taskItem = new();
-    private Priority prio = new();
 
     public async Task OnSubmit()
     {
@@ -41,9 +40,7 @@
         }
         catch (Exception)
         {
-            
-            throw;
-        }
-        
+            return;
+        }     
     }
 }

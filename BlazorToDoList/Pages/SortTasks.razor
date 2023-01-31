@@ -2,44 +2,45 @@
 
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
+@using ToDoList.API;
 @inject ITaskService TaskService;
+@inject IListService ListService;
 @inject NavigationManager NavigationManager;
 
-<h3>SortTasks</h3>
+<h3>Sort Tasks</h3>
 
 How do you want to sort?
 <br /><br />
 <div>
     <EditForm Model="@list" OnSubmit="@Update">
-        <InputSelect id="sort" @bind-Value="list.Sortby" class="form-control">
+        <InputSelect id="sort" @bind-Value="list.Sortby" class="form-control w-25">
 
             @foreach (var sort in Enum.GetValues(typeof(SortTask)))
             {
                     <option @onclick="@Update" value="@sort">@sort</option>
             }
         </InputSelect>
-        <button type="submit">Update</button>
+        <br /><br />
+        <button class="btn btn-primary" type="submit">Update</button>
+    <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
     </EditForm>
-    <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-primary">Avbryt</a>
 </div>
 
 @code {
-    private SortTask sortBy = new();
-    private TaskItem task = new();
     private ToDoListItem list = new ();
-    private IEnumerable<TaskItem> tasks = new List<TaskItem>();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-        tasks = await TaskService.GetTasksAsync();
+            //hämtar ut nuvarande lista för att kunna få startvärdet som hör till just denna lista i dropdown menyn
+            var listId = CurrentRecord.Id["ListId"];
+            list = await ListService.GetSingleListAsync(Guid.Parse(listId));
 
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
     }
 
@@ -47,13 +48,12 @@ How do you want to sort?
     {
         try
         {
-            await TaskService.SortTasksAsync(list); //funkar ej
+            await TaskService.SortTasksAsync(list);
             NavigationManager.NavigateTo("/singlelist", true);
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
         
     }

@@ -14,21 +14,21 @@
         <br /><br />
         New titlecolor:
         <br />
-        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control">  
+        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control w-25">  
             @foreach (var color in Enum.GetValues(typeof(Color)))
             {
                     <option value="@color">@color</option>
             }
         </InputSelect>
         <br />
-        <button type="submit">Submit</button> <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-primary">Cancel</a>
+        <button class="btn btn-primary" type="submit">Submit</button> 
+        <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-secondaer">Cancel</a>
     </EditForm>
     
 </div>
 
 @code {
     private ToDoListItem listItem = new();
-    //private Color color = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -46,8 +46,7 @@
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
         
     }

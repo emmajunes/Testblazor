@@ -5,15 +5,12 @@
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
-<h3>Delete User</h3>
-
-Do you want to delete your user?
-
+<h3>Do you want to delete your user?</h3>
+<br />
 <EditForm Model="@user" OnSubmit="@OnSubmit">
-    <button type="submit">Delete</button>
+    <button class="btn btn-danger "type="submit">Delete</button>
+<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-primary">Cancel</a>
 </EditForm>
-<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-primary">No</a>
-
 
 @code {
     private UserItem user = new();
@@ -28,8 +25,7 @@ Do you want to delete your user?
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
         
     }

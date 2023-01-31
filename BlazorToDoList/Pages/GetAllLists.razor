@@ -29,12 +29,11 @@
         try
         {
 
-        lists = await ListService.GetAllListsAsync();
+            lists = await ListService.GetAllListsAsync();
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
     }
 
@@ -47,8 +46,7 @@
         }
         catch (Exception)
         {
-            
-            throw;
+            return;
         }
         
     }

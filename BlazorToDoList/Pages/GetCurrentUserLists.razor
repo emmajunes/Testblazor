@@ -13,10 +13,9 @@
         @foreach (var list in currentUserLists)
         {
                 <tr>
-                    <td><button @onclick="() => GoToList(list)" class="list-button border-0 bg-white text-uppercase"><p style="color:@list.TitleColor">@list.ListTitle</p></button></td>
-                    <td><button @onclick="() => DeleteList(list)" class="btn btn-secondary align-self-start">Delete List</button></td>
-                </tr>
-            
+                    <td><button @onclick="() => GoToList(list)" class="border-0 bg-white text-uppercase"><p style="color:@list.TitleColor">@list.ListTitle</p></button></td>
+                    <td><button @onclick="() => DeleteList(list)" class="btn btn-danger">Delete List</button></td>
+                </tr>     
         }
     </tbody>
 </table>
@@ -29,17 +28,16 @@
 @code {
     private IEnumerable<ToDoListItem> currentUserLists = new List<ToDoListItem>();
     private ToDoListItem list = new();
-    
+
     protected override async Task OnInitializedAsync()
     {
         try
         {
-
-        currentUserLists = await ListService.GetCurrentUserListsAsync();
+            currentUserLists = await ListService.GetCurrentUserListsAsync();
         }
         catch (Exception)
-        {          
-            throw;
+        {
+            return;
         }
     }
 
@@ -51,10 +49,10 @@
             NavigationManager.NavigateTo("/singlelist", true);
         }
         catch (Exception)
-        {    
-            throw;
+        {
+            return;
         }
-        
+
     }
 
     public void DeleteList(ToDoListItem listItem)
@@ -67,8 +65,8 @@
             NavigationManager.NavigateTo("/deletelist", true);
         }
         catch (Exception)
-        {        
-            throw;
+        {
+            return;
         }
         
     }  

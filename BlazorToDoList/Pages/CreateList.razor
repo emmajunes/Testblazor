@@ -8,24 +8,24 @@
 <h3>Create new list</h3>
 <div>
     <EditForm Model="@listItem" OnSubmit="@OnSubmit">
-        Title:
-        <InputText id="name" @bind-Value="listItem.ListTitle" />
-        <br />
-        Color:
-        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control">
+        Title: <br />
+        <InputText class="mb-5" id="name" @bind-Value="listItem.ListTitle" />
+        <br /><br />
+        Color: <br />
+        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control w-25">
 
             @foreach (var color in Enum.GetValues(typeof(Color)))
             {
                 <option value="@color">@color</option>
             }
         </InputSelect>
-        <br/>
-        <button type="submit">Submit</button>
+        <br/><br />
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/currentuserlists"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
     </EditForm>
 </div>
 @code {
     private ToDoListItem listItem = new();
-    private Color color = new();
 
     public async Task OnSubmit()
     {
@@ -36,9 +36,7 @@
         }
         catch (Exception)
         {
-            
-            throw;
-        }
-        
+            return;
+        }      
     }
 }
