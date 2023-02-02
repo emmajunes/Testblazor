@@ -12,8 +12,8 @@
 <p class="mb-4">How do you want to sort?</p>
 
 <div>
-    <EditForm Model="@list" OnValidSubmit="@Update">
-        <InputSelect id="sort" @bind-Value="list.Sortby" class="form-control w-25 mb-5">
+    <EditForm Model="@ListItem" OnValidSubmit="@Update">
+        <InputSelect id="sort" @bind-Value="ListItem.Sortby" class="form-control w-25 mb-5">
 
             @foreach (var sort in Enum.GetValues(typeof(SortTask)))
             {
@@ -26,7 +26,7 @@
 </div>
 
 @code {
-    private ToDoListItem list = new();
+    private ToDoListItem ListItem { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -34,7 +34,7 @@
         {
             //hämtar ut nuvarande lista för att kunna få startvärdet som hör till just denna lista i dropdown menyn
             var listId = CurrentRecord.Id["ListId"];
-            list = await ListService.GetSingleListAsync(Guid.Parse(listId));
+            ListItem = await ListService.GetSingleListAsync(Guid.Parse(listId));
 
         }
         catch (Exception)
@@ -47,7 +47,7 @@
     {
         try
         {
-            await TaskService.SortTasksAsync(list);
+            await TaskService.SortTasksAsync(ListItem);
             NavigationManager.NavigateTo("/singlelist", true);
         }
         catch (Exception)

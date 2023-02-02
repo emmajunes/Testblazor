@@ -6,25 +6,25 @@
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
-<h3 class="mb-4">Welcome @currentUser.Username</h3>
+<h3 class="mb-4">Welcome @CurrentUser.Username</h3>
 
-<p class="mb-2">Username:@currentUser.Username</p>
-<p class="mb-2">Email:@currentUser.Email</p>
-<p class="mb-5">Access:@currentUser.Access</p>
+<p class="mb-2">Username:@CurrentUser.Username</p>
+<p class="mb-2">Email:@CurrentUser.Email</p>
+<p class="mb-5">Access:@CurrentUser.Access</p>
 
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/currentuserlists"))" @onclick:preventDefault class="btn btn-primary">View your lists</a>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/editprofile"))" @onclick:preventDefault class="btn btn-primary">Edit your profile</a>
 
 @code {
 
-    private UserItem currentUser = new();
+    private UserItem CurrentUser { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             //var userId = CurrentRecord.Id["UserId"];
-            currentUser = await UserService.GetSingleUserAsync(); //funkar men ska jag använda den även när en admin klickar på en user?
+            CurrentUser = await UserService.GetSingleUserAsync(); //funkar men ska jag använda den även när en admin klickar på en user?
         }
         catch (Exception)
         {

@@ -4,30 +4,29 @@
 @using ToDoList.API;
 @inject NavigationManager NavigationManager
 
-<h3>Listor</h3>
+<h3>Lists</h3>
 
 @inject IListService ListService;
 
 <table class="table">
     <tbody>
-        @foreach (var list in lists)
+        @foreach (var list in Lists)
         {
             <tr>
-                <td><button @onclick="() => GoToList(list)" class="border-0 bg-white text-uppercase"><p style="color:@list.TitleColor">@list.ListTitle</p></button></td>
+                <td><p style="color:@list.TitleColor">@list.ListTitle</p></td>
             </tr>
         }
     </tbody>
-    <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/usersettings"))" @onclick:preventDefault class="btn btn-primary">Go back</a>
 </table>
 
 @code {
-    private IEnumerable<ToDoListItem> lists = new List<ToDoListItem>();
+    private IEnumerable<ToDoListItem> Lists { get; set; } = new List<ToDoListItem>();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            lists = await ListService.GetAllListsAsync();
+            Lists = await ListService.GetAllListsAsync();
         }
         catch (Exception)
         {
@@ -35,11 +34,11 @@
         }
     }
 
-    public void GoToList(ToDoListItem listItem)
+    public void GoToList(ToDoListItem list)
     {
         try
         {
-            CurrentRecord.Id["ListId"] = listItem.Id.ToString();
+            CurrentRecord.Id["ListId"] = list.Id.ToString();
             NavigationManager.NavigateTo("/singlelist", true);
         }
         catch (Exception)

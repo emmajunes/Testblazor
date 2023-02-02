@@ -9,13 +9,13 @@
 
 <div>
     <p class="text-danger">@errorMessage</p>
-    <EditForm Model="@listItem" OnValidSubmit="@OnSubmit">
+    <EditForm Model="@ListItem" OnValidSubmit="@OnSubmit">
         <DataAnnotationsValidator />
         <p class="mb-2">New title:</p>
-        <ValidationMessage For="@(() => listItem.ListTitle)" />
-        <InputText class="mb-2" id="title" @bind-Value="listItem.ListTitle" />
+        <ValidationMessage For="@(() => ListItem.ListTitle)" />
+        <InputText class="mb-2" id="title" @bind-Value="ListItem.ListTitle" />
         <p class="mb-2">New titlecolor:</p>
-        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control w-25 mb-5">
+        <InputSelect id="color" @bind-Value="ListItem.TitleColor" class="form-control w-25 mb-5">
             @foreach (var color in Enum.GetValues(typeof(Color)))
             {
                 <option value="@color">@color</option>
@@ -27,21 +27,21 @@
 </div>
 
 @code {
-    private ToDoListItem listItem = new();
-    public string errorMessage { get; set; } = "";
+    private ToDoListItem ListItem { get; set; } = new();
+    private string errorMessage { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
         var listId = CurrentRecord.Id["ListId"];
-        listItem = await ListService.GetSingleListAsync(Guid.Parse(listId));
+        ListItem = await ListService.GetSingleListAsync(Guid.Parse(listId));
     }
 
     public async Task OnSubmit()
     {
         try
         {
-                await ListService.EditListAsync(listItem);
-                await ListService.EditTitleColorAsync(listItem);
+                await ListService.EditListAsync(ListItem);
+                await ListService.EditTitleColorAsync(ListItem);
                 NavigationManager.NavigateTo("/singlelist", true);      
         }
         catch (Exception)

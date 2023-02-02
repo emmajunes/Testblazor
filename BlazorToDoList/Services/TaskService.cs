@@ -23,13 +23,6 @@ namespace BlazorToDoList.Services
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
             return await _httpClientWrapper.PostAsync<TaskItem>(path, data);
         }
-
-        //public void ChangeSortTypeForTask(SortTask sortAlternative)
-        //{
-           
-        //    throw new NotImplementedException();
-        //}
-
         public async Task<TaskItem> DeleteTaskAsync()
         {
             var path = "Task/DeleteTask";
@@ -57,10 +50,10 @@ namespace BlazorToDoList.Services
             var path = "Task/GetAllTasks";
             return await _httpClientWrapper.GetAsync<IEnumerable<TaskItem>>(path);
         }
-        public async Task<IEnumerable<TaskItem>> SortTasksAsync(ToDoListItem listItem)
+        public async Task<IEnumerable<TaskItem>> SortTasksAsync(ToDoListItem list)
         {
             var path = "Task/SortTasks";
-            var stringContent = JsonSerializer.Serialize(listItem);
+            var stringContent = JsonSerializer.Serialize(list);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
             return await _httpClientWrapper.PutAsync<IEnumerable<TaskItem>>(path, data);
         }
@@ -70,7 +63,6 @@ namespace BlazorToDoList.Services
             var stringContent = JsonSerializer.Serialize(task);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
             return await _httpClientWrapper.PutAsync<TaskItem>(path, data);
-
         }
     }
 }

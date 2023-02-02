@@ -13,7 +13,7 @@
             <td>Access:</td>
             <td></td>
         </tr>
-        @foreach (var user in users)
+        @foreach (var user in UsersList)
         {
             <tr>
                 <td>@user.Username</td>
@@ -21,20 +21,20 @@
                 <td>@user.Access</td>
                 <td>
 
-                    @if (user.Access < currentUser.Access)
+                    @if (user.Access < CurrentUser.Access)
                     {
                         <button @onclick="() => PromoteUser(user)" class="btn btn-primary align-self-end">Promote</button>
                         <button @onclick="() => DemoteUser(user)" class="btn btn-primary align-self-end">Demote</button>
                     }
                 </td>
                 <td>
-                    @if (user.Access < currentUser.Access && currentUser.Access == Access.Admin)
+                    @if (user.Access < CurrentUser.Access && CurrentUser.Access == Access.Admin)
                     {
                         @if (!confirmDelete)
                         {
                         <td><button @onclick="() => ToggleDelete(user)" class="btn btn-danger">Delete User</button></td>
                         }
-                        else if (confirmDelete && user.Id == temporaryUser.Id)
+                        else if (confirmDelete && user.Id == TemporaryUser.Id)
                         {
                         <p>Are you sure?</p>
                         <td><button @onclick="() => DeleteUser(user)" class="btn btn-danger">Yes</button></td>
@@ -48,18 +48,18 @@
 </table>
 
 @code {
-    private IEnumerable<UserItem> users = new List<UserItem>();
-    private UserItem currentUser = new();
-    private UserItem temporaryUser = new();
-    public bool confirmDelete { get; set; } = false;
-    public bool show { get; set; } = true;
+    private IEnumerable<UserItem> UsersList { get; set; } = new List<UserItem>();
+    private UserItem CurrentUser { get; set; } = new();
+    private UserItem TemporaryUser { get; set; } = new();
+    private bool confirmDelete { get; set; } = false;
+    private bool show { get; set; } = true;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            currentUser = await UserService.GetSingleUserAsync();
-            users = await UserService.GetUsersAsync();
+            CurrentUser = await UserService.GetSingleUserAsync();
+            UsersList = await UserService.GetUsersAsync();
         }
         catch (Exception)
         {
@@ -109,7 +109,7 @@
 
     public void ToggleDelete(UserItem user)
     {
-        temporaryUser = user;
+        TemporaryUser = user;
         confirmDelete = !confirmDelete;
     }
 }

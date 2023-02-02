@@ -6,12 +6,12 @@
 @inject ITaskService TaskService;
 @inject NavigationManager NavigationManager;
 
-<h3>@task.TaskTitle</h3>
+<h3>@TaskItem.TaskTitle</h3>
 
 <table class="table">
     <tbody>
         <tr>
-            <td>- @task.TaskDescription</td>
+            <td>- @TaskItem.TaskDescription</td>
         </tr>
     </tbody>
 </table>
@@ -19,14 +19,14 @@
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/edittask"))" @onclick:preventDefault class="btn btn-primary">Edit task</a>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-secondary">Go back</a>
 @code {
-    private TaskItem task = new();
+    private TaskItem TaskItem { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             var taskId = CurrentRecord.Id["TaskId"];
-            task = await TaskService.GetSingleTaskAsync(Guid.Parse(taskId));
+            TaskItem = await TaskService.GetSingleTaskAsync(Guid.Parse(taskId));
         }
         catch (Exception)
         {

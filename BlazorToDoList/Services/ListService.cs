@@ -20,20 +20,18 @@ namespace BlazorToDoList.Services
             _httpClientWrapper = client;
         }
 
-        public async Task<ToDoListItem> CreateListAsync(ToDoListItem listItem)
+        public async Task<ToDoListItem> CreateListAsync(ToDoListItem list)
         {
             var path = "List/CreateList";
-            var stringContent = JsonSerializer.Serialize(listItem);
+            var stringContent = JsonSerializer.Serialize(list);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
             return await _httpClientWrapper.PostAsync<ToDoListItem>(path, data);
-
         }
 
         public async Task<ToDoListItem> DeleteListAsync()
         {
             var path = "List/DeleteList";
             return await _httpClientWrapper.DeleteAsync<ToDoListItem>(path);
-
         }
 
         public async Task<IEnumerable<ToDoListItem>> GetCurrentUserListsAsync()
@@ -44,34 +42,29 @@ namespace BlazorToDoList.Services
 
         public async Task<ToDoListItem> GetSingleListAsync(Guid listId)
         {
-            var path= "List/GetSingleList";
-            
+            var path= "List/GetSingleList";          
             var stringContent = JsonSerializer.Serialize(listId);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
             return await _httpClientWrapper.PutAsync<ToDoListItem>(path, data);
-
         }
 
         public async Task<IEnumerable<ToDoListItem>> GetAllListsAsync()
         {
             var path = "List/GetAllLists";
             return await _httpClientWrapper.GetAsync<IEnumerable<ToDoListItem>>(path);
-
         }
 
-        public async Task<ToDoListItem> EditListAsync(ToDoListItem listItem)
+        public async Task<ToDoListItem> EditListAsync(ToDoListItem list)
         {
             var path = "List/EditList";
-            var stringContent = JsonSerializer.Serialize(listItem);
+            var stringContent = JsonSerializer.Serialize(list);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
             return await _httpClientWrapper.PutAsync<ToDoListItem>(path, data);       
-
         }
-        public async Task<ToDoListItem> EditTitleColorAsync(ToDoListItem listItem)
+        public async Task<ToDoListItem> EditTitleColorAsync(ToDoListItem list)
         {
-
             var path = "List/EditTitleColor";
-            var stringContent = JsonSerializer.Serialize(listItem);
+            var stringContent = JsonSerializer.Serialize(list);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
             return await _httpClientWrapper.PutAsync<ToDoListItem>(path, data);
         }

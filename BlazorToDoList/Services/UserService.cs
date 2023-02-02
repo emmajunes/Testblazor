@@ -86,7 +86,7 @@ namespace BlazorToDoList.Services
             return await _httpClientWrapper.PutAsync<UserItem>(path, data);
         }
 
-        public async Task<UserItem> PromoteUserAsync(UserItem user) //ändrat från guid och access
+        public async Task<UserItem> PromoteUserAsync(UserItem user)
         {
             var path = "User/PromoteUser";
             var stringContent = JsonSerializer.Serialize(user);
@@ -101,6 +101,5 @@ namespace BlazorToDoList.Services
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
             return await _httpClientWrapper.PutAsync<UserItem>(path, data);
         }
-
     }
 }

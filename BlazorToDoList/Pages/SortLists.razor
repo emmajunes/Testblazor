@@ -10,8 +10,8 @@
 <p class="mb-4">How do you want to sort?</p>
 
 <div>
-    <EditForm Model="@user" OnValidSubmit="@Update">
-        <InputSelect id="sort" @bind-Value="user.SortBy" class="form-control w-25 mb-5">
+    <EditForm Model="@User" OnValidSubmit="@Update">
+        <InputSelect id="sort" @bind-Value="User.SortBy" class="form-control w-25 mb-5">
 
             @foreach (var sort in Enum.GetValues(typeof(SortList)))
             {
@@ -24,13 +24,13 @@
 </div>
 
 @code {
-    private UserItem user = new();
+    private UserItem User { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            user = await UserService.GetSingleUserAsync();
+            User = await UserService.GetSingleUserAsync();
         }
         catch (Exception)
         {
@@ -42,7 +42,7 @@
     {
         try
         {
-            await ListService.SortListsAsync(user);
+            await ListService.SortListsAsync(User);
             NavigationManager.NavigateTo("/currentuserlists", true);
         }
         catch (Exception)

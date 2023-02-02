@@ -21,6 +21,8 @@ namespace BlazorToDoList.Data
         public string TaskTitle { get; set; }
 
         [JsonPropertyName("taskDescription")]
+        [MinLength(1, ErrorMessage = "Tasktitle cannot be empty")]
+        [Required]
         public string TaskDescription { get; set; }
 
         [JsonPropertyName("completed")]

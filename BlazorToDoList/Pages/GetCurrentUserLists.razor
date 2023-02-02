@@ -10,7 +10,7 @@
 
 <table class="table">
     <tbody>
-        @foreach (var list in currentUserLists)
+        @foreach (var list in CurrentUserLists)
         {
                 <tr>
                     <td><button @onclick="() => GoToList(list)" class="border-0 bg-white text-uppercase"><p style="color:@list.TitleColor">@list.ListTitle</p></button></td>
@@ -19,7 +19,7 @@
                 {
                     <td><button @onclick="() => ToggleDelete(list)" class="btn btn-danger">Delete List</button></td>
                 }             
-                else if (confirmDelete && list.Id == temporaryList.Id)
+                else if (confirmDelete && list.Id == TemporaryList.Id)
                 {
                     <p>Are you sure?</p>
                     <td><button @onclick="() => DeleteList(list)" class="btn btn-danger">Yes</button></td>
@@ -37,16 +37,16 @@
 
 
 @code {
-    private IEnumerable<ToDoListItem> currentUserLists = new List<ToDoListItem>();
-    private ToDoListItem list = new();
-    private ToDoListItem temporaryList = new();
-    public bool confirmDelete { get; set; } = false;
+    private IEnumerable<ToDoListItem> CurrentUserLists { get; set; } = new List<ToDoListItem>();
+    //private ToDoListItem ListItem { get; set; } = new();
+    private ToDoListItem TemporaryList { get; set; } = new();
+    private bool confirmDelete { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            currentUserLists = await ListService.GetCurrentUserListsAsync();
+            CurrentUserLists = await ListService.GetCurrentUserListsAsync();
         }
         catch (Exception)
         {
@@ -86,7 +86,7 @@
     
     public void ToggleDelete(ToDoListItem list)
     {
-        temporaryList = list;
+        TemporaryList = list;
         confirmDelete = !confirmDelete;
     }
 }

@@ -8,12 +8,13 @@
 <h3 class="mb-4">Create new list</h3>
 <div>
     <p class="text-danger">@errorMessage</p>
-    <EditForm Model="@listItem" OnValidSubmit="@OnSubmit">
+    <EditForm Model="@ListItem" OnValidSubmit="@OnSubmit">
         <DataAnnotationsValidator />
         <p class="mb-2">Title:</p>
-        <InputText class="mb-2" id="name" @bind-Value="listItem.ListTitle" />
+        <ValidationMessage For="@(() => ListItem.ListTitle)" />
+        <InputText class="mb-2" id="name" @bind-Value="ListItem.ListTitle" /> 
         <p class="mb-2">Color:</p>
-        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control w-25 mb-5">
+        <InputSelect id="color" @bind-Value="ListItem.TitleColor" class="form-control w-25 mb-5">
 
             @foreach (var color in Enum.GetValues(typeof(Color)))
             {
@@ -26,14 +27,14 @@
 </div>
 
 @code {
-    private ToDoListItem listItem = new();
-    public string errorMessage { get; set; } = "";
+    private ToDoListItem ListItem { get; set; } = new();
+    private string errorMessage { get; set; } = "";
 
     public async Task OnSubmit()
     {
         try
         {
-            var listIten = await ListService.CreateListAsync(listItem);
+            await ListService.CreateListAsync(ListItem);
             NavigationManager.NavigateTo("/currentuserlists", true);
         }
         catch (Exception)

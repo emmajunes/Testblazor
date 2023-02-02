@@ -10,11 +10,11 @@
 <h3 class="mb-4">Log In</h3>
 <div>
     <p class="text-danger">@errorMessage</p>
-    <EditForm Model="@user" OnValidSubmit="@OnSubmit">
+    <EditForm Model="@User" OnValidSubmit="@OnSubmit">
         <p class="mb-2">Username:</p>
-        <InputText class="mb-2" id="username" @bind-Value="user.Username" />
+        <InputText class="mb-2" id="username" @bind-Value="User.Username" />
         <p class="mb-2">Password:</p>
-        <InputText class="mb-5" type="password" id="password" @bind-Value="user.Password" />
+        <InputText class="mb-5" type="password" id="password" @bind-Value="User.Password" />
         <br />
         <button class="btn btn-primary" type="submit">Log In</button>
         <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
@@ -22,14 +22,14 @@
 </div>
 
 @code {
-    private UserItem user = new();
-    public string errorMessage { get; set; } = "";
+    private UserItem User { get; set; } = new();
+    private string errorMessage { get; set; } = "";
 
     public async Task OnSubmit()
     {
         try
         {
-            user = await UserService.Authenticate(user);
+            User = await UserService.Authenticate(User);
             NavigationManager.NavigateTo("/singleuser", true);
         }
         catch (Exception)

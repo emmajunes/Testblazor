@@ -9,16 +9,16 @@
 
 <div>
     <p class="text-danger">@errorMessage</p>
-    <EditForm Model="@taskItem" OnSubmit="@OnSubmit">
+    <EditForm Model="@TaskItem" OnSubmit="@OnSubmit">
         <DataAnnotationsValidator />
         <p class="mb-2">New title:</p>
-        <InputText class="mb-2" id="name" @bind-Value="taskItem.TaskTitle" />
-        <ValidationMessage For="@(() => taskItem.TaskTitle)" />
+        <InputText class="mb-2" id="name" @bind-Value="TaskItem.TaskTitle" />
+        <ValidationMessage For="@(() => TaskItem.TaskTitle)" />
         <p class="mb-2">New description:</p>
-        <InputText class="mb-2" id="description" @bind-Value="taskItem.TaskDescription" />
-        <ValidationMessage For="@(() => taskItem.TaskDescription)" />
+        <InputText class="mb-2" id="description" @bind-Value="TaskItem.TaskDescription" />
+        <ValidationMessage For="@(() => TaskItem.TaskDescription)" />
         <p class="mb-2">New priority:</p>
-        <InputSelect id="prio" @bind-Value="taskItem.TaskPrio" class="form-control w-25 mb-5">
+        <InputSelect id="prio" @bind-Value="TaskItem.TaskPrio" class="form-control w-25 mb-5">
             @foreach (var prio in Enum.GetValues(typeof(Priority)))
             {
                 <option value="@prio">@prio</option>
@@ -30,19 +30,19 @@
 </div>
 
 @code {
-    private TaskItem taskItem = new();
-    public string errorMessage { get; set; } = "";
+    private TaskItem TaskItem { get; set; } = new();
+    private string errorMessage { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
         var taskId = CurrentRecord.Id["TaskId"];
-        taskItem = await TaskService.GetSingleTaskAsync(Guid.Parse(taskId));
+        TaskItem = await TaskService.GetSingleTaskAsync(Guid.Parse(taskId));
     }
     public async Task OnSubmit()
     {
         try
         {
-            taskItem = await TaskService.EditTaskAsync(taskItem);
+            TaskItem = await TaskService.EditTaskAsync(TaskItem);
             NavigationManager.NavigateTo("/singlelist", true);
         }
         catch (Exception)

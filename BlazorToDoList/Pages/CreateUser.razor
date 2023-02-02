@@ -8,17 +8,17 @@
 <h3 class="mb-4">Create User</h3>
 <div>
     <p class="text-danger">@errorMessage</p>
-    <EditForm Model="@newUser" OnValidSubmit="@OnSubmit">
+    <EditForm Model="@NewUser" OnValidSubmit="@OnSubmit">
         <DataAnnotationsValidator />
         <p class="mb-2">Username:</p>
-        <InputText class="mb-2" id="username" @bind-Value="newUser.Username" />
-        <ValidationMessage For="@(() => newUser.Username)" />
+        <InputText class="mb-2" id="username" @bind-Value="NewUser.Username" />
+        <ValidationMessage For="@(() => NewUser.Username)" />
         <p class="mb-2">Password:</p>
-        <InputText class="mb-2" type="password" id="password" @bind-Value="newUser.Password" />
-        <ValidationMessage For="@(() => newUser.Password)" />
+        <InputText class="mb-2" type="password" id="password" @bind-Value="NewUser.Password" />
+        <ValidationMessage For="@(() => NewUser.Password)" />
         <p class="mb-2">Email:</p>
-        <InputText class="mb-5" id="email" @bind-Value="newUser.Email" />
-        <ValidationMessage For="@(() => newUser.Email)" />
+        <InputText class="mb-5" id="email" @bind-Value="NewUser.Email" />
+        <ValidationMessage For="@(() => NewUser.Email)" />
         <br />
         <button class="btn btn-primary" type="submit">Submit</button>
         <button @onclick="() => Cancel()" class="btn btn-secondary">Cancel</button>
@@ -26,9 +26,9 @@
 </div>
 
 @code {
-    private UserItem newUser = new();
+    private UserItem NewUser { get; set; } = new();
     private UserItem? CurrentUser { get; set; }
-    public string errorMessage { get; set; } = "";
+    private string errorMessage { get; set; } = "";
     //public string successMessage { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
@@ -46,7 +46,7 @@
     {
         try
         {
-            newUser = await UserService.CreateUserAsync(newUser);
+            NewUser = await UserService.CreateUserAsync(NewUser);
             if (CurrentUser == null)
             {
                 //successMessage = "Redirecting to log in.. Log in with your details";

@@ -8,17 +8,17 @@
 
 <div>
     <p class="text-danger">@errorMessage</p>
-    <EditForm Model="@user" OnValidSubmit="@OnSubmit">
+    <EditForm Model="@User" OnValidSubmit="@OnSubmit">
         <DataAnnotationsValidator />
         <p class="mb-2">Username:</p>
-        <InputText id="name" @bind-Value="user.Username" />
-        <ValidationMessage For="@(() => user.Username)" />
+        <InputText id="name" @bind-Value="User.Username" />
+        <ValidationMessage For="@(() => User.Username)" />
         <p class="mb-2">Password:</p>
-        <InputText class="mb-2" type="password" id="password" @bind-Value="user.Password" />
-        <ValidationMessage For="@(() => user.Password)" />
+        <InputText class="mb-2" type="password" id="password" @bind-Value="User.Password" />
+        <ValidationMessage For="@(() => User.Password)" />
         <p class="mb-2">Email:</p>
-        <InputText class="mb-5" id="email" @bind-Value="user.Email" />
-        <ValidationMessage For="@(() => user.Email)" />
+        <InputText class="mb-5" id="email" @bind-Value="User.Email" />
+        <ValidationMessage For="@(() => User.Email)" />
         <br />
         <button class="btn btn-primary mb-5" type="submit">Update</button>
     </EditForm>
@@ -26,26 +26,26 @@
 
 @if (!confirmDelete)
 {
-    <button @onclick:preventDefault @onclick="() => ToggleDelete(user)" class="btn btn-danger">Delete your profile</button>
+    <button @onclick:preventDefault @onclick="() => ToggleDelete(User)" class="btn btn-danger">Delete your profile</button>
     <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-secondary ms-lg-2">Go back</a>
 }
-else if (confirmDelete && user.Id == temporaryUser.Id)
+else if (confirmDelete && User.Id == TemporaryUser.Id)
 {
     <p>Are you sure?</p>
-    <td><button @onclick:preventDefault @onclick="() => DeleteUser(user)" class="btn btn-danger">Yes</button></td>
-    <td><button @onclick:preventDefault @onclick="() => ToggleDelete(user)" class="btn btn-secondary ms-lg-1">No</button></td>
+    <td><button @onclick:preventDefault @onclick="() => DeleteUser(User)" class="btn btn-danger">Yes</button></td>
+    <td><button @onclick:preventDefault @onclick="() => ToggleDelete(User)" class="btn btn-secondary ms-lg-1">No</button></td>
 }
 
 
 @code {
-    private UserItem user = new();
-    private UserItem temporaryUser = new();
-    public bool confirmDelete { get; set; } = false;
-    public string errorMessage { get; set; } = "";
+    private UserItem User { get; set; } = new();
+    private UserItem TemporaryUser { get; set; } = new();
+    private bool confirmDelete { get; set; } = false;
+    private string errorMessage { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
-        user = await UserService.GetSingleUserAsync();
+        User = await UserService.GetSingleUserAsync();
     }
 
     public async Task OnSubmit()
@@ -53,7 +53,7 @@ else if (confirmDelete && user.Id == temporaryUser.Id)
         try
         {
    
-                user = await UserService.EditProfileAsync(user);
+                User = await UserService.EditProfileAsync(User);
                 NavigationManager.NavigateTo("/singleuser", true);
 
             
@@ -78,7 +78,7 @@ else if (confirmDelete && user.Id == temporaryUser.Id)
     }
     public void ToggleDelete(UserItem user)
     {
-        temporaryUser = user;
+        TemporaryUser = user;
         confirmDelete = !confirmDelete;
     }
 }

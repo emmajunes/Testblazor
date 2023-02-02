@@ -8,7 +8,7 @@
 
 <PageTitle>Index</PageTitle>
 
-@if (currentUser == null)
+@if (CurrentUser == null)
 {
 <h1 class="mb-5">To Do List</h1>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/login"))" @onclick:preventDefault class="btn btn-primary">Login</a>
@@ -21,18 +21,17 @@ else
 }
 
 @code {
-    //kolla om detta ska vara kvar!?
-    public UserItem? currentUser { get; set; }
+    private UserItem? CurrentUser { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            currentUser = await UserService.GetSingleUserAsync();
+            CurrentUser = await UserService.GetSingleUserAsync();
         }
         catch (Exception)
         {
-            currentUser = null;
+            CurrentUser = null;
         }
     }
 }
