@@ -1,12 +1,9 @@
 ﻿@page "/usersettings"
 @inject NavigationManager NavigationManager;
 
-<h3>User Settings</h3>
+<h3>Manage other users</h3>
 
 <Users></Users>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/createuser"))" @onclick:preventDefault class="btn btn-secondary">Create new user</a>
 
 
-@code {
-    
-}

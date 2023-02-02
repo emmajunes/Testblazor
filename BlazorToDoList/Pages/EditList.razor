@@ -1,34 +1,34 @@
-﻿@page "/EditList"
+﻿@page "/editlist"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @using ToDoList.API;
 @inject IListService ListService;
 @inject NavigationManager NavigationManager;
 
-<h3>Edit list</h3>
+<h3 class="mb-4">Edit list</h3>
 
 <div>
-    <EditForm Model="@listItem" OnSubmit="@OnSubmit">
-        New title: <br />
-        <InputText id="title" @bind-Value="listItem.ListTitle" />
-        <br /><br />
-        New titlecolor:
-        <br />
-        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control w-25">  
+    <p class="text-danger">@errorMessage</p>
+    <EditForm Model="@listItem" OnValidSubmit="@OnSubmit">
+        <DataAnnotationsValidator />
+        <p class="mb-2">New title:</p>
+        <ValidationMessage For="@(() => listItem.ListTitle)" />
+        <InputText class="mb-2" id="title" @bind-Value="listItem.ListTitle" />
+        <p class="mb-2">New titlecolor:</p>
+        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control w-25 mb-5">
             @foreach (var color in Enum.GetValues(typeof(Color)))
             {
-                    <option value="@color">@color</option>
+                <option value="@color">@color</option>
             }
         </InputSelect>
-        <br />
-        <button class="btn btn-primary" type="submit">Submit</button> 
-        <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-secondaer">Cancel</a>
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
     </EditForm>
-    
 </div>
 
 @code {
     private ToDoListItem listItem = new();
+    public string errorMessage { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -40,14 +40,14 @@
     {
         try
         {
-            await ListService.EditListAsync(listItem);
-            await ListService.EditTitleColorAsync(listItem);
-            NavigationManager.NavigateTo("/singlelist", true);
+                await ListService.EditListAsync(listItem);
+                await ListService.EditTitleColorAsync(listItem);
+                NavigationManager.NavigateTo("/singlelist", true);      
         }
         catch (Exception)
         {
-            return;
+            errorMessage = "Please fill in the form";
         }
-        
+
     }
 }

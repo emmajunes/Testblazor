@@ -5,44 +5,37 @@
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
-<h3>Sort Lists</h3>
-<br />
+<h3 class="mb-4">Sort Lists</h3>
 
-How do you want to sort?
-<br /><br />
+<p class="mb-4">How do you want to sort?</p>
+
 <div>
-    <EditForm Model="@user" OnSubmit="@Update">
-        <InputSelect id="sort" @bind-Value="user.SortBy" class="form-control w-25">
+    <EditForm Model="@user" OnValidSubmit="@Update">
+        <InputSelect id="sort" @bind-Value="user.SortBy" class="form-control w-25 mb-5">
 
             @foreach (var sort in Enum.GetValues(typeof(SortList)))
             {
                 <option @onclick="@Update" value="@sort">@sort</option>
             }
         </InputSelect>
-        <br /><br />
         <button class="btn btn-primary" type="submit">Update</button>
         <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/currentuserlists"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
     </EditForm>
 </div>
 
 @code {
-    //private SortList sortBy = new();
     private UserItem user = new();
-    //private IEnumerable<ToDoListItem> lists = new List<ToDoListItem>();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             user = await UserService.GetSingleUserAsync();
-            //lists = await ListService.GetCurrentUserListsAsync();
         }
         catch (Exception)
         {
             return;
         }
-
-
     }
 
     public async Task Update()
@@ -55,8 +48,7 @@ How do you want to sort?
         catch (Exception)
         {
             return;
-        }
-        
+        }       
     }
 
 }

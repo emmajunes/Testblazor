@@ -1,4 +1,4 @@
-﻿@page "/Users"
+﻿@page "/users"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @using ToDoList.API;
@@ -15,19 +15,34 @@
         </tr>
         @foreach (var user in users)
         {
-                 <tr>
-                     <td>@user.Username</td>     
-                     <td>@user.Email</td>
-                     <td>@user.Access</td>
-                     <td>
-                
-            @if(user.Access < currentUser.Access)
-            {   
-                    <button @onclick="() => PromoteUser(user)" class="btn btn-secondary align-self-end">Promote</button>
-                    <button @onclick="() => DemoteUser(user)" class="btn btn-secondary align-self-end">Demote</button>
-            }  
+            <tr>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>@user.Access</td>
+                <td>
+
+                    @if (user.Access < currentUser.Access)
+                    {
+                        <button @onclick="() => PromoteUser(user)" class="btn btn-primary align-self-end">Promote</button>
+                        <button @onclick="() => DemoteUser(user)" class="btn btn-primary align-self-end">Demote</button>
+                    }
                 </td>
-                </tr>    
+                <td>
+                    @if (user.Access < currentUser.Access && currentUser.Access == Access.Admin)
+                    {
+                        @if (!confirmDelete)
+                        {
+                        <td><button @onclick="() => ToggleDelete(user)" class="btn btn-danger">Delete User</button></td>
+                        }
+                        else if (confirmDelete && user.Id == temporaryUser.Id)
+                        {
+                        <p>Are you sure?</p>
+                        <td><button @onclick="() => DeleteUser(user)" class="btn btn-danger">Yes</button></td>
+                        <td><button @onclick="() => ToggleDelete(user)" class="btn btn-secondary">No</button></td>
+                        }
+                    }
+                </td>
+            </tr>
         }
     </tbody>
 </table>
@@ -35,6 +50,8 @@
 @code {
     private IEnumerable<UserItem> users = new List<UserItem>();
     private UserItem currentUser = new();
+    private UserItem temporaryUser = new();
+    public bool confirmDelete { get; set; } = false;
     public bool show { get; set; } = true;
 
     protected override async Task OnInitializedAsync()
@@ -43,7 +60,6 @@
         {
             currentUser = await UserService.GetSingleUserAsync();
             users = await UserService.GetUsersAsync();
-
         }
         catch (Exception)
         {
@@ -56,24 +72,44 @@
         try
         {
             await UserService.PromoteUserAsync(user);
-            NavigationManager.NavigateTo("/users", true);
+            NavigationManager.NavigateTo("/usersettings", true);
         }
         catch (Exception)
         {
             return;
         }
-
     }
+
     public async Task DemoteUser(UserItem user)
     {
         try
         {
             await UserService.DemoteUserAsync(user);
-            NavigationManager.NavigateTo("/users", true);
+            confirmDelete = false;
+            NavigationManager.NavigateTo("/usersettings", true);
         }
         catch (Exception)
         {
             return;
         }
+    }
+
+    public async Task DeleteUser(UserItem user)
+    {
+        try
+        {
+            await UserService.DeleteUserForAdminAsync(user);
+            NavigationManager.NavigateTo("/usersettings", true);
+        }
+        catch (Exception)
+        {
+            return;
+        }
+    }
+
+    public void ToggleDelete(UserItem user)
+    {
+        temporaryUser = user;
+        confirmDelete = !confirmDelete;
     }
 }

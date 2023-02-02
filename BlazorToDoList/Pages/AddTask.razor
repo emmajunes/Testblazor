@@ -4,32 +4,33 @@
 @inject ITaskService TaskService;
 @inject NavigationManager NavigationManager;
 
-<h3>Add Task</h3>
-<br />
+<h3 class="mb-4">Add Task</h3>
+
 <div>
-    <EditForm Model="@taskItem" OnSubmit="@OnSubmit">
-        Title: <br />
-        <InputText id="title" @bind-Value="taskItem.TaskTitle" />
-        <br />
-        Description: <br />
-        <InputText id="description" @bind-Value="taskItem.TaskDescription" />
-        <br />
-        Priority: <br />
-        <InputSelect id="prio" @bind-Value="taskItem.TaskPrio" class="form-control w-25">
+    <p class="text-danger">@errorMessage</p>
+    <EditForm Model="@taskItem" OnValidSubmit="@OnSubmit">
+        <DataAnnotationsValidator />
+        <p class="mb-2">Title:</p>
+        <InputText class="mb-2" id="title" @bind-Value="taskItem.TaskTitle" />
+        <ValidationMessage For="@(() => taskItem.TaskTitle)" />
+        <p class="mb-2">Description:</p>
+        <InputText class="mb-2" id="description" @bind-Value="taskItem.TaskDescription" />
+        <p class="mb-2">Priority:</p>
+        <InputSelect id="prio" @bind-Value="taskItem.TaskPrio" class="form-control w-25 mb-5">
 
             @foreach (var prio in Enum.GetValues(typeof(Priority)))
             {
                 <option value="@prio">@prio</option>
             }
         </InputSelect>
-        <br />
-        <button class="btn btn-primary"type="submit">Submit</button>
+        <button class="btn btn-primary" type="submit">Submit</button>
         <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
-    </EditForm>   
+    </EditForm>
 </div>
 
 @code {
     private TaskItem taskItem = new();
+    public string errorMessage { get; set; } = "";
 
     public async Task OnSubmit()
     {
@@ -40,7 +41,7 @@
         }
         catch (Exception)
         {
-            return;
-        }     
+            errorMessage = "Please fill in the form";
+        }
     }
 }

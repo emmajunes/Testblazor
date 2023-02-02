@@ -12,9 +12,12 @@ namespace BlazorToDoList.Data
         public Guid Id { get; set; }
 
         [JsonPropertyName("taskPrio")]
+        [Required]
         public Priority TaskPrio { get; set; }
 
         [JsonPropertyName("taskTitle")]
+        [MinLength(1, ErrorMessage = "Tasktitle cannot be empty")]
+        [Required]
         public string TaskTitle { get; set; }
 
         [JsonPropertyName("taskDescription")]

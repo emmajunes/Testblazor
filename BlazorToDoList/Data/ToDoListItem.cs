@@ -19,10 +19,13 @@ namespace BlazorToDoList.Data
         public string ListDateTime { get; set; }
 
         [JsonPropertyName("listTitle")]
+        [MinLength(1, ErrorMessage = "Listtitle cannot be empty")]
+        [Required]
         public string ListTitle { get; set; }
         public ICollection<TaskItem> Tasks { get; set; }
 
         [JsonPropertyName("titleColor")]
+        [Required]
         public Color TitleColor { get; set; }
 
         [JsonPropertyName("sortBy")]

@@ -7,27 +7,26 @@
 @inject IListService ListService;
 @inject NavigationManager NavigationManager;
 
-<h3>Sort Tasks</h3>
+<h3 class="mb-4">Sort Tasks</h3>
 
-How do you want to sort?
-<br /><br />
+<p class="mb-4">How do you want to sort?</p>
+
 <div>
-    <EditForm Model="@list" OnSubmit="@Update">
-        <InputSelect id="sort" @bind-Value="list.Sortby" class="form-control w-25">
+    <EditForm Model="@list" OnValidSubmit="@Update">
+        <InputSelect id="sort" @bind-Value="list.Sortby" class="form-control w-25 mb-5">
 
             @foreach (var sort in Enum.GetValues(typeof(SortTask)))
             {
-                    <option @onclick="@Update" value="@sort">@sort</option>
+                <option @onclick="@Update" value="@sort">@sort</option>
             }
         </InputSelect>
-        <br /><br />
         <button class="btn btn-primary" type="submit">Update</button>
-    <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
+        <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singlelist"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
     </EditForm>
 </div>
 
 @code {
-    private ToDoListItem list = new ();
+    private ToDoListItem list = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -55,6 +54,5 @@ How do you want to sort?
         {
             return;
         }
-        
     }
 }

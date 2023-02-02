@@ -6,7 +6,7 @@
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager
 
-<h3>Your lists</h3>
+<h3>Lists</h3>
 
 <table class="table">
     <tbody>
@@ -14,8 +14,19 @@
         {
                 <tr>
                     <td><button @onclick="() => GoToList(list)" class="border-0 bg-white text-uppercase"><p style="color:@list.TitleColor">@list.ListTitle</p></button></td>
-                    <td><button @onclick="() => DeleteList(list)" class="btn btn-danger">Delete List</button></td>
-                </tr>     
+                <td>
+                    @if (!confirmDelete)
+                {
+                    <td><button @onclick="() => ToggleDelete(list)" class="btn btn-danger">Delete List</button></td>
+                }             
+                else if (confirmDelete && list.Id == temporaryList.Id)
+                {
+                    <p>Are you sure?</p>
+                    <td><button @onclick="() => DeleteList(list)" class="btn btn-danger">Yes</button></td>
+                    <td><button @onclick="() => ToggleDelete(list)" class="btn btn-secondary">No</button></td>
+                }
+                </td>
+            </tr>     
         }
     </tbody>
 </table>
@@ -28,6 +39,8 @@
 @code {
     private IEnumerable<ToDoListItem> currentUserLists = new List<ToDoListItem>();
     private ToDoListItem list = new();
+    private ToDoListItem temporaryList = new();
+    public bool confirmDelete { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -41,11 +54,11 @@
         }
     }
 
-    public void GoToList(ToDoListItem listItem)
+    public void GoToList(ToDoListItem list)
     {
         try
         {
-            CurrentRecord.Id["ListId"] = listItem.Id.ToString();
+            CurrentRecord.Id["ListId"] = list.Id.ToString();
             NavigationManager.NavigateTo("/singlelist", true);
         }
         catch (Exception)
@@ -55,19 +68,25 @@
 
     }
 
-    public void DeleteList(ToDoListItem listItem)
+    public async Task DeleteList(ToDoListItem list)
     {
         try
         {
-            //Sparar ner specifikt listId för den lista man klickat på för att kunna radera från denna nivå också.
-            CurrentRecord.Id["TaskId"] = listItem.Id.ToString();
-            ListService.GetSingleListAsync(listItem.Id);
-            NavigationManager.NavigateTo("/deletelist", true);
+            //hämtar först vilken lista man valt för att sedan deleta den.
+            await ListService.GetSingleListAsync(list.Id);
+            await ListService.DeleteListAsync();
+            NavigationManager.NavigateTo("/currentuserlists", true);
         }
         catch (Exception)
         {
             return;
         }
         
-    }  
+    } 
+    
+    public void ToggleDelete(ToDoListItem list)
+    {
+        temporaryList = list;
+        confirmDelete = !confirmDelete;
+    }
 }

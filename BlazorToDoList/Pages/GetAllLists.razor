@@ -1,4 +1,4 @@
-﻿@page "/GetAllLists"
+﻿@page "/getalllists"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @using ToDoList.API;
@@ -13,12 +13,11 @@
         @foreach (var list in lists)
         {
             <tr>
-                <td><p style="color:@list.TitleColor">@list.ListTitle</p></td>
+                <td><button @onclick="() => GoToList(list)" class="border-0 bg-white text-uppercase"><p style="color:@list.TitleColor">@list.ListTitle</p></button></td>
             </tr>
-            <button @onclick="() => GoToList(list)" class="btn btn-secondary align-self-end">Go To List</button>
         }
     </tbody>
-    <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/admin"))" @onclick:preventDefault class="btn btn-primary">Go back</a>
+    <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/usersettings"))" @onclick:preventDefault class="btn btn-primary">Go back</a>
 </table>
 
 @code {
@@ -28,7 +27,6 @@
     {
         try
         {
-
             lists = await ListService.GetAllListsAsync();
         }
         catch (Exception)

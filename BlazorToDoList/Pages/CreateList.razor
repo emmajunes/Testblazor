@@ -1,31 +1,33 @@
-﻿@page "/CreateList"
+﻿@page "/createlist"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @using ToDoList.API;
 @inject IListService ListService;
 @inject NavigationManager NavigationManager;
 
-<h3>Create new list</h3>
+<h3 class="mb-4">Create new list</h3>
 <div>
-    <EditForm Model="@listItem" OnSubmit="@OnSubmit">
-        Title: <br />
-        <InputText class="mb-5" id="name" @bind-Value="listItem.ListTitle" />
-        <br /><br />
-        Color: <br />
-        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control w-25">
+    <p class="text-danger">@errorMessage</p>
+    <EditForm Model="@listItem" OnValidSubmit="@OnSubmit">
+        <DataAnnotationsValidator />
+        <p class="mb-2">Title:</p>
+        <InputText class="mb-2" id="name" @bind-Value="listItem.ListTitle" />
+        <p class="mb-2">Color:</p>
+        <InputSelect id="color" @bind-Value="listItem.TitleColor" class="form-control w-25 mb-5">
 
             @foreach (var color in Enum.GetValues(typeof(Color)))
             {
                 <option value="@color">@color</option>
             }
         </InputSelect>
-        <br/><br />
         <button class="btn btn-primary" type="submit">Submit</button>
         <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/currentuserlists"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
     </EditForm>
 </div>
+
 @code {
     private ToDoListItem listItem = new();
+    public string errorMessage { get; set; } = "";
 
     public async Task OnSubmit()
     {
@@ -36,7 +38,7 @@
         }
         catch (Exception)
         {
-            return;
+            errorMessage = "Please fill in the form";
         }      
     }
 }

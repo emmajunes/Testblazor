@@ -8,13 +8,22 @@
 
 <div class="page">
     <div class="sidebar">
-        <NavMenu hide="@hide" currentUser="@currentUser"  />
+        <NavMenu hide="@Hide" currentUser="@CurrentUser"  />
     </div>
     <main>
         <div class="top-row px-4">
-            @if(currentUser != null)
+            @if(CurrentUser != null)
             {
-            <button @onclick="() => LogOut()" class="btn btn-primary">Log Out</button>         
+                @if (!confirmLogOut)
+                {
+                    <button @onclick="() => ToggleLogOut()" class="btn btn-primary">Log Out</button>   
+                }
+                else if (confirmLogOut)
+                {
+                    <p class="mt-2">Are you sure?</p>
+                    <button @onclick="() => LogOut()" class="btn btn-primary ms-lg-2">Yes</button>
+                    <button @onclick="() => ToggleLogOut()" class="btn btn-secondary ms-lg-2">No</button>
+                }               
             }
         </div>
         <article class="content px-4">
@@ -24,20 +33,20 @@
 </div>
 
 @code{
-    public UserItem? currentUser { get; set; }
-    public bool hide { get; set; } = true;
+    public UserItem? CurrentUser { get; set; }
+    public bool Hide { get; set; } = true;
+    public bool confirmLogOut { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            currentUser = await UserService.GetSingleUserAsync();
-            hide = false;
-           
+            CurrentUser = await UserService.GetSingleUserAsync();
+            Hide = false;
         }
         catch (Exception)
         {
-            currentUser = null;
+            CurrentUser = null;
         }
     }
 
@@ -53,5 +62,10 @@
             throw;
         }
         
+    }
+
+    public void ToggleLogOut()
+    {
+        confirmLogOut = !confirmLogOut;
     }
 }

@@ -5,31 +5,33 @@
 @inject ITaskService TaskService;
 @inject NavigationManager NavigationManager;
 
-<h3>Edit Task</h3>
+<h3 class="mb-4">Edit Task</h3>
 
 <div>
+    <p class="text-danger">@errorMessage</p>
     <EditForm Model="@taskItem" OnSubmit="@OnSubmit">
-        New title: <br />
-        <InputText id="name" @bind-Value="taskItem.TaskTitle" />
-        <br /><br />
-        New description: <br />
-        <InputText id="description" @bind-Value="taskItem.TaskDescription" /> 
-        <br /> <br />
-        New priority: <br />
-        <InputSelect id="prio" @bind-Value="taskItem.TaskPrio" class="form-control w-25">    
+        <DataAnnotationsValidator />
+        <p class="mb-2">New title:</p>
+        <InputText class="mb-2" id="name" @bind-Value="taskItem.TaskTitle" />
+        <ValidationMessage For="@(() => taskItem.TaskTitle)" />
+        <p class="mb-2">New description:</p>
+        <InputText class="mb-2" id="description" @bind-Value="taskItem.TaskDescription" />
+        <ValidationMessage For="@(() => taskItem.TaskDescription)" />
+        <p class="mb-2">New priority:</p>
+        <InputSelect id="prio" @bind-Value="taskItem.TaskPrio" class="form-control w-25 mb-5">
             @foreach (var prio in Enum.GetValues(typeof(Priority)))
             {
-                    <option value="@prio">@prio</option>
+                <option value="@prio">@prio</option>
             }
         </InputSelect>
-        <br /><br />
-        <button class="btn btn primary" type="submit">Updatera</button>
+        <button class="btn btn-primary" type="submit">Update</button>
         <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singletask"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
     </EditForm>
 </div>
 
 @code {
     private TaskItem taskItem = new();
+    public string errorMessage { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -45,8 +47,8 @@
         }
         catch (Exception)
         {
-            return;
+            errorMessage = "Please fill in the form";
         }
-        
+
     }
 }

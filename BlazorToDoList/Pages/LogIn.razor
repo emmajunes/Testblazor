@@ -1,4 +1,4 @@
-﻿@page "/LogIn"
+﻿@page "/login"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
@@ -7,18 +7,18 @@
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
-<h3>LogIn</h3>
+<h3 class="mb-4">Log In</h3>
 <div>
     <p class="text-danger">@errorMessage</p>
-<EditForm Model="@user" OnSubmit="@OnSubmit">
-    Username: <br />
-    <InputText id="username" @bind-Value="user.Username" />
-    <br /><br />
-    Password: <br />
-        <InputText type="password" id="password" @bind-Value="user.Password" />
-        <br /><br />
-    <button class="btn btn-primary "type="submit">Log In</button>
-</EditForm>
+    <EditForm Model="@user" OnValidSubmit="@OnSubmit">
+        <p class="mb-2">Username:</p>
+        <InputText class="mb-2" id="username" @bind-Value="user.Username" />
+        <p class="mb-2">Password:</p>
+        <InputText class="mb-5" type="password" id="password" @bind-Value="user.Password" />
+        <br />
+        <button class="btn btn-primary" type="submit">Log In</button>
+        <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
+    </EditForm>
 </div>
 
 @code {
@@ -36,6 +36,6 @@
         {
             errorMessage = "Invalid username or password";
         }
-        
+
     }
 }

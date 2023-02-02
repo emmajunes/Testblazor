@@ -4,28 +4,44 @@
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
-<h3>Edit profile</h3>
+<h3 class="mb-4">Edit profile</h3>
 
 <div>
-    <EditForm Model="@user" OnSubmit="@OnSubmit">
-        Username: <br />
+    <p class="text-danger">@errorMessage</p>
+    <EditForm Model="@user" OnValidSubmit="@OnSubmit">
+        <DataAnnotationsValidator />
+        <p class="mb-2">Username:</p>
         <InputText id="name" @bind-Value="user.Username" />
-        <br /><br />
-        Password: <br />
-        <InputText type="password" id="password" @bind-Value="user.Password" />
-        <br /><br />
-        Email:<br />
-        <InputText id="email" @bind-Value="user.Email" />
-        <br /><br />
-        <button class="mb-5 btn btn-primary"type="submit">Update</button>
+        <ValidationMessage For="@(() => user.Username)" />
+        <p class="mb-2">Password:</p>
+        <InputText class="mb-2" type="password" id="password" @bind-Value="user.Password" />
+        <ValidationMessage For="@(() => user.Password)" />
+        <p class="mb-2">Email:</p>
+        <InputText class="mb-5" id="email" @bind-Value="user.Email" />
+        <ValidationMessage For="@(() => user.Email)" />
+        <br />
+        <button class="btn btn-primary mb-5" type="submit">Update</button>
     </EditForm>
 </div>
 
-<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/deleteuser"))" @onclick:preventDefault class="btn btn-danger">Delete your profile</a>
-<a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-secondary">Go back</a>
+@if (!confirmDelete)
+{
+    <button @onclick:preventDefault @onclick="() => ToggleDelete(user)" class="btn btn-danger">Delete your profile</button>
+    <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-secondary ms-lg-2">Go back</a>
+}
+else if (confirmDelete && user.Id == temporaryUser.Id)
+{
+    <p>Are you sure?</p>
+    <td><button @onclick:preventDefault @onclick="() => DeleteUser(user)" class="btn btn-danger">Yes</button></td>
+    <td><button @onclick:preventDefault @onclick="() => ToggleDelete(user)" class="btn btn-secondary ms-lg-1">No</button></td>
+}
+
 
 @code {
     private UserItem user = new();
+    private UserItem temporaryUser = new();
+    public bool confirmDelete { get; set; } = false;
+    public string errorMessage { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,13 +52,33 @@
     {
         try
         {
-            user = await UserService.EditProfileAsync(user);
-            NavigationManager.NavigateTo("/singleuser", true); //Funkar någorlunda men hur funkar det med admin?
+   
+                user = await UserService.EditProfileAsync(user);
+                NavigationManager.NavigateTo("/singleuser", true);
+
+            
+        }
+        catch (Exception)
+        {
+            errorMessage = "Please fill in the form";
+        }
+
+    }
+    public async Task DeleteUser(UserItem user)
+    {
+        try
+        {
+            await UserService.DeleteUserAsync();
+            NavigationManager.NavigateTo("/", true);
         }
         catch (Exception)
         {
             return;
         }
-        
+    }
+    public void ToggleDelete(UserItem user)
+    {
+        temporaryUser = user;
+        confirmDelete = !confirmDelete;
     }
 }

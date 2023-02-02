@@ -11,6 +11,8 @@ namespace BlazorToDoList.Services
 
         Task<UserItem> DeleteUserAsync();
 
+        Task<UserItem> DeleteUserForAdminAsync(UserItem user);
+
         Task<UserItem> EditProfileAsync(UserItem user);
 
         Task<UserItem> GetSingleUserAsync();

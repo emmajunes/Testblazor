@@ -6,20 +6,14 @@
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
-<h3>Welcome @currentUser.Username</h3>
+<h3 class="mb-4">Welcome @currentUser.Username</h3>
 
-<br />
-Username:@currentUser.Username
-<br/>
-Email:@currentUser.Email
-<br/>
-Access:@currentUser.Access
-<br />
-<br/>
+<p class="mb-2">Username:@currentUser.Username</p>
+<p class="mb-2">Email:@currentUser.Email</p>
+<p class="mb-5">Access:@currentUser.Access</p>
+
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/currentuserlists"))" @onclick:preventDefault class="btn btn-primary">View your lists</a>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/editprofile"))" @onclick:preventDefault class="btn btn-primary">Edit your profile</a>
-
-
 
 @code {
 

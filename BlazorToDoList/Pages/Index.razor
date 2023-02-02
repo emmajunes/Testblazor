@@ -8,11 +8,9 @@
 
 <PageTitle>Index</PageTitle>
 
-
-
 @if (currentUser == null)
 {
-<h1>To Do List</h1>
+<h1 class="mb-5">To Do List</h1>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/login"))" @onclick:preventDefault class="btn btn-primary">Login</a>
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/createuser"))" @onclick:preventDefault class="btn btn-primary">Sign Up</a>
     

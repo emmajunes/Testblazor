@@ -1,29 +1,27 @@
-﻿@page "/CreateUser"
+﻿@page "/createuser"
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @using ToDoList.API;
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
-<h3>Create User</h3>
-<br />
+<h3 class="mb-4">Create User</h3>
 <div>
     <p class="text-danger">@errorMessage</p>
-    <EditForm Model="@newUser" OnSubmit="@OnSubmit">
+    <EditForm Model="@newUser" OnValidSubmit="@OnSubmit">
         <DataAnnotationsValidator />
-        Username:<br />
-        <InputText id="username" @bind-Value="newUser.Username" />
+        <p class="mb-2">Username:</p>
+        <InputText class="mb-2" id="username" @bind-Value="newUser.Username" />
         <ValidationMessage For="@(() => newUser.Username)" />
-        <br /><br />
-        Password:<br />
-        <InputText type="password" id="password" @bind-Value="newUser.Password" />
+        <p class="mb-2">Password:</p>
+        <InputText class="mb-2" type="password" id="password" @bind-Value="newUser.Password" />
         <ValidationMessage For="@(() => newUser.Password)" />
-        <br /><br />
-        Email:<br />
-        <InputText id="email" @bind-Value="newUser.Email" />
+        <p class="mb-2">Email:</p>
+        <InputText class="mb-5" id="email" @bind-Value="newUser.Email" />
         <ValidationMessage For="@(() => newUser.Email)" />
-        <br /><br />
-        <button class="btn btn-primary"type="submit">Create</button>
+        <br />
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <button @onclick="() => Cancel()" class="btn btn-secondary">Cancel</button>
     </EditForm>
 </div>
 
@@ -31,6 +29,7 @@
     private UserItem newUser = new();
     private UserItem? CurrentUser { get; set; }
     public string errorMessage { get; set; } = "";
+    //public string successMessage { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -48,9 +47,11 @@
         try
         {
             newUser = await UserService.CreateUserAsync(newUser);
-            if(CurrentUser == null)
+            if (CurrentUser == null)
             {
-                NavigationManager.NavigateTo("/login", true);              
+                //successMessage = "Redirecting to log in.. Log in with your details";
+                NavigationManager.NavigateTo("/login", true);
+                 
             }
             else
             {
@@ -62,6 +63,18 @@
         {
             errorMessage = "User already exists!";
         }
-        
+
+    }
+
+    public void Cancel()
+    {
+        if (CurrentUser == null)
+        {
+            NavigationManager.NavigateTo("/", true);
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/usersettings", true);
+        }
     }
 }
