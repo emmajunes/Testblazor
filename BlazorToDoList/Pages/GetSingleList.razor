@@ -19,13 +19,13 @@
             }
             <tr>
                 <td><button @onclick="() => GoToTask(task)" class="border-0 bg-white"><p style="text-decoration:@checkmark"> @task.TaskTitle.ToUpper() <br> - @task.TaskDescription</p></button></td>
-                <td> <button @onclick="() => ToggleTask(task)" class="btn btn-primary">Toggle Task</button></td>
+                <td> <button @onclick="() => ToggleTask(task)" class="btn btn-primary">Complete task</button></td>
                 <td>
-                @if (!confirmDelete)
+                @if (!ConfirmDelete)
                 {
-                    <td><button @onclick="() => ToggleDelete(task)" class="btn btn-danger">Delete Task</button></td>
+                    <td><button @onclick="() => ToggleDelete(task)" class="btn btn-danger">Delete task</button></td>
                 }
-                else if (confirmDelete && task.Id == TemporaryTask.Id)
+                else if (ConfirmDelete && task.Id == TemporaryTask.Id)
                 {
                     <p>Are you sure?</p>
                     <td><button @onclick="() => DeleteTask(task)" class="btn btn-danger">Yes</button></td>
@@ -46,9 +46,8 @@
 @code {
     private ToDoListItem ListItem { get; set; } = new ();
     private IEnumerable<TaskItem> Tasks { get; set; } = new List<TaskItem>();
-    //private UserItem CurrentUser { get; set; } = new();
     private TaskItem TemporaryTask { get; set; } = new();
-    private bool confirmDelete { get; set; } = false;
+    private bool ConfirmDelete { get; set; } = false;
     private string checkmark;
 
     protected override async Task OnInitializedAsync()
@@ -97,8 +96,6 @@
     {
         try
         {
-            //Sparar ner specifikt TaskId för den task man klickat på för att kunna radera från denna nivå också.
-            //CurrentRecord.Id["TaskId"] = task.Id.ToString();
             await TaskService.GetSingleTaskAsync(task.Id);
             await TaskService.DeleteTaskAsync();
             NavigationManager.NavigateTo("/singlelist", true);
@@ -112,6 +109,6 @@
     public void ToggleDelete(TaskItem task)
     {
         TemporaryTask = task;
-        confirmDelete = !confirmDelete;
+        ConfirmDelete = !ConfirmDelete;
     }
 }

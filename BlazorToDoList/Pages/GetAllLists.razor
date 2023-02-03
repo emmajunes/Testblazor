@@ -33,18 +33,4 @@
             return;
         }
     }
-
-    public void GoToList(ToDoListItem list)
-    {
-        try
-        {
-            CurrentRecord.Id["ListId"] = list.Id.ToString();
-            NavigationManager.NavigateTo("/singlelist", true);
-        }
-        catch (Exception)
-        {
-            return;
-        }
-        
-    }
 }

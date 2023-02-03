@@ -38,7 +38,6 @@ namespace BlazorToDoList.Services
             using var responseContent = response.Content.ReadAsStreamAsync().Result;
             return await JsonSerializer.DeserializeAsync<T>(responseContent);
         }
-
         public async Task<T> DeleteAsync<T>(string path)
         {
             var response = await httpClient.DeleteAsync(_baseUrl + path);

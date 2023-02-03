@@ -8,7 +8,7 @@
 <h3 class="mb-4">Edit Task</h3>
 
 <div>
-    <p class="text-danger">@errorMessage</p>
+    <p class="text-danger">@ErrorMessage</p>
     <EditForm Model="@TaskItem" OnSubmit="@OnSubmit">
         <DataAnnotationsValidator />
         <p class="mb-2">New title:</p>
@@ -31,7 +31,7 @@
 
 @code {
     private TaskItem TaskItem { get; set; } = new();
-    private string errorMessage { get; set; } = "";
+    private string ErrorMessage { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -47,7 +47,7 @@
         }
         catch (Exception)
         {
-            errorMessage = "Please fill in the form";
+            ErrorMessage = "Please fill in the form";
         }
 
     }

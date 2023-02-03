@@ -14,11 +14,11 @@
         <div class="top-row px-4">
             @if(CurrentUser != null)
             {
-                @if (!confirmLogOut)
+                @if (!ConfirmLogOut)
                 {
                     <button @onclick="() => ToggleLogOut()" class="btn btn-primary">Log Out</button>   
                 }
-                else if (confirmLogOut)
+                else if (ConfirmLogOut)
                 {
                     <p class="mt-2">Are you sure?</p>
                     <button @onclick="() => LogOut()" class="btn btn-primary ms-lg-2">Yes</button>
@@ -35,7 +35,7 @@
 @code{
     public UserItem? CurrentUser { get; set; }
     public bool Hide { get; set; } = true;
-    public bool confirmLogOut { get; set; } = false;
+    public bool ConfirmLogOut { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -66,6 +66,6 @@
 
     public void ToggleLogOut()
     {
-        confirmLogOut = !confirmLogOut;
+        ConfirmLogOut = !ConfirmLogOut;
     }
 }

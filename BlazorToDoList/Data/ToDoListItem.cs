@@ -31,8 +31,7 @@ namespace BlazorToDoList.Data
         [JsonPropertyName("sortBy")]
         public SortTask Sortby { get; set; } = SortTask.Priority;
 
-        [JsonPropertyName("userDtoId")]
+        [JsonPropertyName("userDtoId")] 
         public Guid UserDtoId { get; set; }
-
-    }        
+    }
 }

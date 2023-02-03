@@ -7,7 +7,7 @@
 <h3 class="mb-4">Add Task</h3>
 
 <div>
-    <p class="text-danger">@errorMessage</p>
+    <p class="text-danger">@ErrorMessage</p>
     <EditForm Model="@TaskItem" OnValidSubmit="@OnSubmit">
         <DataAnnotationsValidator />
         <p class="mb-2">Title:</p>
@@ -15,6 +15,7 @@
         <ValidationMessage For="@(() => TaskItem.TaskTitle)" />
         <p class="mb-2">Description:</p>
         <InputText class="mb-2" id="description" @bind-Value="TaskItem.TaskDescription" />
+        <ValidationMessage For="@(() => TaskItem.TaskDescription)" />
         <p class="mb-2">Priority:</p>
         <InputSelect id="prio" @bind-Value="TaskItem.TaskPrio" class="form-control w-25 mb-5">
 
@@ -30,7 +31,7 @@
 
 @code {
     private TaskItem TaskItem {get; set; } = new();
-    private string errorMessage { get; set; } = "";
+    private string ErrorMessage { get; set; } = "";
 
     public async Task OnSubmit()
     {
@@ -41,7 +42,7 @@
         }
         catch (Exception)
         {
-            errorMessage = "Please fill in the form";
+            ErrorMessage = "Please fill in the form";
         }
     }
 }

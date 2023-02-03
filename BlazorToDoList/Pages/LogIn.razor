@@ -7,23 +7,24 @@
 @inject IUserService UserService;
 @inject NavigationManager NavigationManager;
 
-<h3 class="mb-4">Log In</h3>
+<h3 class="mb-4">Login</h3>
+
 <div>
-    <p class="text-danger">@errorMessage</p>
+    <p class="text-danger">@ErrorMessage</p>
     <EditForm Model="@User" OnValidSubmit="@OnSubmit">
         <p class="mb-2">Username:</p>
         <InputText class="mb-2" id="username" @bind-Value="User.Username" />
         <p class="mb-2">Password:</p>
         <InputText class="mb-5" type="password" id="password" @bind-Value="User.Password" />
         <br />
-        <button class="btn btn-primary" type="submit">Log In</button>
+        <button class="btn btn-primary" type="submit">Submit</button>
         <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/"))" @onclick:preventDefault class="btn btn-secondary">Cancel</a>
     </EditForm>
 </div>
 
 @code {
     private UserItem User { get; set; } = new();
-    private string errorMessage { get; set; } = "";
+    private string ErrorMessage { get; set; } = "";
 
     public async Task OnSubmit()
     {
@@ -34,8 +35,7 @@
         }
         catch (Exception)
         {
-            errorMessage = "Invalid username or password";
+            ErrorMessage = "Invalid username or password";
         }
-
     }
 }

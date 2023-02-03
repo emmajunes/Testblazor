@@ -7,7 +7,7 @@
 <h3 class="mb-4">Edit profile</h3>
 
 <div>
-    <p class="text-danger">@errorMessage</p>
+    <p class="text-danger">@ErrorMessage</p>
     <EditForm Model="@User" OnValidSubmit="@OnSubmit">
         <DataAnnotationsValidator />
         <p class="mb-2">Username:</p>
@@ -24,12 +24,12 @@
     </EditForm>
 </div>
 
-@if (!confirmDelete)
+@if (!ConfirmDelete)
 {
     <button @onclick:preventDefault @onclick="() => ToggleDelete(User)" class="btn btn-danger">Delete your profile</button>
     <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/singleuser"))" @onclick:preventDefault class="btn btn-secondary ms-lg-2">Go back</a>
 }
-else if (confirmDelete && User.Id == TemporaryUser.Id)
+else if (ConfirmDelete && User.Id == TemporaryUser.Id)
 {
     <p>Are you sure?</p>
     <td><button @onclick:preventDefault @onclick="() => DeleteUser(User)" class="btn btn-danger">Yes</button></td>
@@ -40,8 +40,8 @@ else if (confirmDelete && User.Id == TemporaryUser.Id)
 @code {
     private UserItem User { get; set; } = new();
     private UserItem TemporaryUser { get; set; } = new();
-    private bool confirmDelete { get; set; } = false;
-    private string errorMessage { get; set; } = "";
+    private bool ConfirmDelete { get; set; } = false;
+    private string ErrorMessage { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -52,15 +52,12 @@ else if (confirmDelete && User.Id == TemporaryUser.Id)
     {
         try
         {
-   
                 User = await UserService.EditProfileAsync(User);
-                NavigationManager.NavigateTo("/singleuser", true);
-
-            
+                NavigationManager.NavigateTo("/singleuser", true);          
         }
         catch (Exception)
         {
-            errorMessage = "Please fill in the form";
+            ErrorMessage = "Fill in the form";
         }
 
     }
@@ -79,6 +76,6 @@ else if (confirmDelete && User.Id == TemporaryUser.Id)
     public void ToggleDelete(UserItem user)
     {
         TemporaryUser = user;
-        confirmDelete = !confirmDelete;
+        ConfirmDelete = !ConfirmDelete;
     }
 }

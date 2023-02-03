@@ -30,11 +30,11 @@
                 <td>
                     @if (user.Access < CurrentUser.Access && CurrentUser.Access == Access.Admin)
                     {
-                        @if (!confirmDelete)
+                        @if (!ConfirmDelete)
                         {
-                        <td><button @onclick="() => ToggleDelete(user)" class="btn btn-danger">Delete User</button></td>
+                        <td><button @onclick="() => ToggleDelete(user)" class="btn btn-danger">Delete user</button></td>
                         }
-                        else if (confirmDelete && user.Id == TemporaryUser.Id)
+                        else if (ConfirmDelete && user.Id == TemporaryUser.Id)
                         {
                         <p>Are you sure?</p>
                         <td><button @onclick="() => DeleteUser(user)" class="btn btn-danger">Yes</button></td>
@@ -51,8 +51,8 @@
     private IEnumerable<UserItem> UsersList { get; set; } = new List<UserItem>();
     private UserItem CurrentUser { get; set; } = new();
     private UserItem TemporaryUser { get; set; } = new();
-    private bool confirmDelete { get; set; } = false;
-    private bool show { get; set; } = true;
+    private bool ConfirmDelete { get; set; } = false;
+    private bool Show { get; set; } = true;
 
     protected override async Task OnInitializedAsync()
     {
@@ -85,7 +85,7 @@
         try
         {
             await UserService.DemoteUserAsync(user);
-            confirmDelete = false;
+            ConfirmDelete = false;
             NavigationManager.NavigateTo("/usersettings", true);
         }
         catch (Exception)
@@ -110,6 +110,6 @@
     public void ToggleDelete(UserItem user)
     {
         TemporaryUser = user;
-        confirmDelete = !confirmDelete;
+        ConfirmDelete = !ConfirmDelete;
     }
 }

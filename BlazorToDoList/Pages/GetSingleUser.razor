@@ -1,5 +1,4 @@
 ﻿@page "/singleuser"
-
 @using BlazorToDoList.Data;
 @using BlazorToDoList.Services;
 @using ToDoList.API;
@@ -16,20 +15,17 @@
 <a href="" @onclick="@(()=> NavigationManager.NavigateTo("/editprofile"))" @onclick:preventDefault class="btn btn-primary">Edit your profile</a>
 
 @code {
-
     private UserItem CurrentUser { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            //var userId = CurrentRecord.Id["UserId"];
-            CurrentUser = await UserService.GetSingleUserAsync(); //funkar men ska jag använda den även när en admin klickar på en user?
+            CurrentUser = await UserService.GetSingleUserAsync();
         }
         catch (Exception)
         {
             return;
-        }
-        
+        }     
     }
 }

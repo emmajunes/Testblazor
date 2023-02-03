@@ -32,10 +32,8 @@
     {
         try
         {
-            //hämtar ut nuvarande lista för att kunna få startvärdet som hör till just denna lista i dropdown menyn
             var listId = CurrentRecord.Id["ListId"];
             ListItem = await ListService.GetSingleListAsync(Guid.Parse(listId));
-
         }
         catch (Exception)
         {

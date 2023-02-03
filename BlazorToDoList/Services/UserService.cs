@@ -41,7 +41,6 @@ namespace BlazorToDoList.Services
             var stringContent = JsonSerializer.Serialize(user);
             var data = new StringContent(stringContent, Encoding.UTF8, "application/json");
             return await _httpClientWrapper.PostAsync<UserItem>(path, data);
-
         }
 
         public async Task<UserItem> DeleteUserAsync()

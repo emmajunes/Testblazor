@@ -6,8 +6,9 @@
 @inject NavigationManager NavigationManager;
 
 <h3 class="mb-4">Create User</h3>
+
 <div>
-    <p class="text-danger">@errorMessage</p>
+    <p class="text-danger">@ErrorMessage</p>
     <EditForm Model="@NewUser" OnValidSubmit="@OnSubmit">
         <DataAnnotationsValidator />
         <p class="mb-2">Username:</p>
@@ -28,8 +29,7 @@
 @code {
     private UserItem NewUser { get; set; } = new();
     private UserItem? CurrentUser { get; set; }
-    private string errorMessage { get; set; } = "";
-    //public string successMessage { get; set; } = "";
+    private string ErrorMessage { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,9 +49,7 @@
             NewUser = await UserService.CreateUserAsync(NewUser);
             if (CurrentUser == null)
             {
-                //successMessage = "Redirecting to log in.. Log in with your details";
-                NavigationManager.NavigateTo("/login", true);
-                 
+                NavigationManager.NavigateTo("/login", true);              
             }
             else
             {
@@ -61,9 +59,8 @@
         }
         catch (Exception)
         {
-            errorMessage = "User already exists!";
+            ErrorMessage = "User already exists!";
         }
-
     }
 
     public void Cancel()

@@ -12,21 +12,21 @@
     <tbody>
         @foreach (var list in CurrentUserLists)
         {
-                <tr>
-                    <td><button @onclick="() => GoToList(list)" class="border-0 bg-white text-uppercase"><p style="color:@list.TitleColor">@list.ListTitle</p></button></td>
+            <tr>
+                <td><button @onclick="() => GoToList(list)" class="border-0 bg-white text-uppercase"><p style="color:@list.TitleColor">@list.ListTitle</p></button></td>
                 <td>
-                    @if (!confirmDelete)
-                {
-                    <td><button @onclick="() => ToggleDelete(list)" class="btn btn-danger">Delete List</button></td>
-                }             
-                else if (confirmDelete && list.Id == TemporaryList.Id)
-                {
+                    @if (!ConfirmDelete)
+                    {
+                    <td><button @onclick="() => ToggleDelete(list)" class="btn btn-danger">Delete list</button></td>
+                    }
+                    else if (ConfirmDelete && list.Id == TemporaryList.Id)
+                    {
                     <p>Are you sure?</p>
                     <td><button @onclick="() => DeleteList(list)" class="btn btn-danger">Yes</button></td>
                     <td><button @onclick="() => ToggleDelete(list)" class="btn btn-secondary">No</button></td>
-                }
+                    }
                 </td>
-            </tr>     
+            </tr>
         }
     </tbody>
 </table>
@@ -38,9 +38,9 @@
 
 @code {
     private IEnumerable<ToDoListItem> CurrentUserLists { get; set; } = new List<ToDoListItem>();
-    //private ToDoListItem ListItem { get; set; } = new();
     private ToDoListItem TemporaryList { get; set; } = new();
-    private bool confirmDelete { get; set; } = false;
+    private bool ConfirmDelete { get; set; } = false;
+    private bool Confirm { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -72,7 +72,6 @@
     {
         try
         {
-            //hämtar först vilken lista man valt för att sedan deleta den.
             await ListService.GetSingleListAsync(list.Id);
             await ListService.DeleteListAsync();
             NavigationManager.NavigateTo("/currentuserlists", true);
@@ -81,12 +80,11 @@
         {
             return;
         }
-        
-    } 
-    
+    }
+
     public void ToggleDelete(ToDoListItem list)
     {
         TemporaryList = list;
-        confirmDelete = !confirmDelete;
+        ConfirmDelete = !ConfirmDelete;
     }
 }
